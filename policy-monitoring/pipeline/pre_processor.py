@@ -456,7 +456,7 @@ class UniversalPreProcessor(DeclarativePreProcessor):
     _POLICIES: Dict[str, PolicySpec]
     _POLICIES = {
         "logging_behavior__exe": {
-            "enabled": False,
+            "enabled": True,
             "preamble_dependencies": frozenset(
                 [
                     "originally_in_subnet",
@@ -472,7 +472,7 @@ class UniversalPreProcessor(DeclarativePreProcessor):
             "needs_end_event": False,
         },
         "artifact_pool_latency": {
-            "enabled": False,  # TODO: only for relevant tests
+            "enabled": True,
             "preamble_dependencies": frozenset(
                 [
                     "original_subnet_type",
