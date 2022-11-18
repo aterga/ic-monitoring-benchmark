@@ -24,7 +24,6 @@ plt.rcParams.update({
     'lines.linewidth': 0.5,
     'lines.markeredgewidth': 0.5,
     'lines.markersize': 3,
-    'font.family': 'Nimbus Sans',
     'font.size': 6,
     'axes.titlesize': 6,
 })
@@ -106,7 +105,7 @@ def make_plot(index_rate, policies):
     fig.tight_layout(pad=0.2)
 
 if __name__ == '__main__':
-    index_rate = load_index_rate('data/mainnet_index_rate.txt')
+    index_rate = load_index_rate('data/online/production_index_rate.txt')
     policies = list(filter(lambda x: x is not None, [
             try_load('data/online/clean_logs/report.txt', 'clean-logs'),
             try_load('data/online/reboot_count/report.txt', 'reboot-count'),

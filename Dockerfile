@@ -26,6 +26,7 @@ RUN mvn package \
 FROM debian:11.5
 
 RUN apt-get update && apt-get install -y \
+    time \
     default-jre \
     libgmp10 \
     python3-pip \
@@ -36,8 +37,5 @@ COPY --from=build /home/opam/dist /usr/local/
 WORKDIR /work
 COPY experiments/requirements.txt .
 RUN pip3 install --no-cache-dir -r ./requirements.txt
-
-COPY experiments .
-COPY policy-monitoring policy-monitoring
 
 ENTRYPOINT ["/bin/bash"]
