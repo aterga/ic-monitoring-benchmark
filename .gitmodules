@@ -1,0 +1,3 @@
+[submodule "monpoly"]
+	path = monpoly
+	url = https://bitbucket.org/jshs/monpoly.git

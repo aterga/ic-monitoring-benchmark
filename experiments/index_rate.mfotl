@@ -1,0 +1,4 @@
+(* Compute the index rate at every second. *)
+
+LET tss(s) = EXISTS ms. ts(ms) AND s = ms / 1000 IN
+tss(s) AND NOT (NEXT tss(s)) AND ixr <- CNT i; s ONCE [0,999] (tp(i) AND tss(s))
