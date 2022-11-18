@@ -1,1 +1,0 @@
-SUBSYSTEM=="ipmi", TAG+="systemd"
