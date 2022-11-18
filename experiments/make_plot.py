@@ -63,6 +63,7 @@ def try_load(filename, name, skiplast=False):
                 skipfooter=1 if skiplast else 0, engine='python')
     else:
         logging.warning("%s: File not found, cannot create plot for %s", filename, name)
+        return None
 
     df.name = name
     return df
@@ -106,12 +107,14 @@ def make_plot(index_rate, policies):
 
 if __name__ == '__main__':
     index_rate = load_index_rate('data/mainnet_index_rate.txt')
-    policies = [
-            try_load('data/online/latency_clean_logs.txt', 'clean-logs'),
-            try_load('data/online/latency_reboot_count.txt', 'reboot-count'),
+    policies = list(filter(lambda x: x is not None, [
+            try_load('data/online/clean_logs/report.txt', 'clean-logs'),
+            try_load('data/online/reboot_count/report.txt', 'reboot-count'),
             # Skip the last line because it contains the timeout message.
-            try_load('data/online/latency_lb_exe.txt', 'logging-behavior', skiplast=True),
-            #try_load('data/online/latency_unauth.txt', 'unauthorized-connections', skiplast=True),
-            ]
+            try_load('data/online/logging_behavior__exe/report.txt', 'logging-behavior', skiplast=True),
+            #try_load('data/online/unauth/report.txt', 'unauthorized-connections', skiplast=True),
+            ]))
+    assert len(policies) > 0, "no policies were specified"
     make_plot(index_rate, policies)
-    plt.savefig('data/online-latency.png')
+    plt.savefig('data/online/latency.png')
+
