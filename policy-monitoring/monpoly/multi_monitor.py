@@ -32,30 +32,24 @@ class MultiMonitor:
 
         def check_timeout():
             """
-            If elapsed time is beyond self._hard_timeout, checks whether there are any Monpoly threads still running.
-            - If so, sets self._timeout_exception to an instance of MonpolyGlobalTimeout.
-            - Otherwise, return.
+            As long as there are any Monpoly threads still running, checks repeatedly whether
+            elapsed time has reached self._hard_timeout. If so, sets self._timeout_exception to an
+            instance of MonpolyGlobalTimeout. Returns once all Monpoly threads have terminated.
             """
             if not self._hard_timeout:
                 return
-            while True:
-                time.sleep(0.1)
+            while any(mon.still_running() for mon in self._monitors):
                 elapsed = time.monotonic() - self._start_time
-                if elapsed < self._hard_timeout:
-                    # timeout not reached yet
-                    continue
-                detected_timeout = False
-                for mon in self._monitors:
-                    if mon.still_running():
-                        detected_timeout = True  # found a running Monpoly thread
-                        mon.terminate()
-                if detected_timeout:
+                if elapsed >= self._hard_timeout:
+                    # timeout reached and there was at least one running Monpoly thread
+                    for mon in self._monitors:
+                        if mon.still_running():
+                            mon.terminate()
                     self._timeout_exception = mon.global_timeout(
                         f"hard timeout reached after {self._hard_timeout} seconds"
                     )
-                else:
-                    # no more running Monpoly threads -- return
-                    return
+                # wait before checking again
+                time.sleep(0.1)
 
         self._timeout_thread = PropagatingThread(
             name="MultiMonitorTimeoutThread",
