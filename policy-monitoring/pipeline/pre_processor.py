@@ -471,7 +471,7 @@ class UniversalPreProcessor(DeclarativePreProcessor):
             ),
             "needs_end_event": False,
         },
-        "artifact_pool_latency": {
+        "block_validation_latency": {
             "enabled": True,
             "preamble_dependencies": frozenset(
                 [

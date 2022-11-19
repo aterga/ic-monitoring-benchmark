@@ -187,7 +187,7 @@ def print_table(data):
             'finalization_consistency',
             'finalized_height',
             'replica_divergence',
-            'artifact_pool_latency'
+            'block_validation_latency'
             ]
 
     for p in POLICIES:
