@@ -6,7 +6,7 @@ set -x
 INPUT_LOG="$1"  # e.g., "jmeisfhcqxtgy"
 GLOBAL_INFRA="$2"
 
-OUTPUT_PREFIX="./data/offline/production"
+OUTPUT_PREFIX="../data/offline/production"  # relative to policy-monitoring
 
 declare -a POLICIES=("clean_logs" "reboot_count" "logging_behavior__exe" "unauthorized_connections")
 

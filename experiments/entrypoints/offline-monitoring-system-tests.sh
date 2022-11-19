@@ -5,7 +5,7 @@ set -x
 
 INPUT_DIR="$1"  # e.g., "jmeisfhcqxtgy"
 
-OUTPUT_PREFIX="./data/offline/system-tests"
+OUTPUT_PREFIX="../data/offline/system-tests"  # relative to policy-monitoring
 
 declare -a POLICIES=("clean_logs" "reboot_count" "logging_behavior__exe" "unauthorized_connections" "finalization_consistency" "finalized_height" "replica_divergence" "block_validation_latency")
 
