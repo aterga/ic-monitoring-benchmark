@@ -107,10 +107,9 @@ def load(basedir):
     logging.info("Searching for pipeline stats in %s", basedir)
     ds = []
     for filename in glob.glob(basedir + '/offline/*/*-stat.yaml'):
-        m = re.match(r'.*/(mainnet|system-tests)/[^/]+$', filename)
+        m = re.match(r'.*/(production|system-tests)/[^/]+$', filename)
         if m:
-            scenario = 'prod' if m.group(1) == 'mainnet' else 'test'
-            ds.append(load_stat_file(scenario, filename))
+            ds.append(load_stat_file(m.group(1), filename))
 
     raw_counts = load_raw_counts(basedir + '/raw_counts.txt')
     logging.info("Loaded all files")
@@ -152,25 +151,25 @@ def print_table(data):
     print(TABLE_HEADER.format('Measurement', 'Testing', 'Prod'))
     print(TABLE_SEP)
     print(TABLE_ROW1.format('Raw log entries',
-                            '{:.0f}   '.format(common.loc['raw_entries'][('test', 'median')]),
-                            '{:.0f}   '.format(common.loc['raw_entries'][('test', 'amax')]),
-                            '{:.0f}   '.format(common.loc['raw_entries'][('prod', 'median')]),
-                            '{:.0f}   '.format(common.loc['raw_entries'][('prod', 'amax')])))
+                            '{:.0f}   '.format(common.loc['raw_entries'][('system-tests', 'median')]),
+                            '{:.0f}   '.format(common.loc['raw_entries'][('system-tests', 'amax')]),
+                            '{:.0f}   '.format(common.loc['raw_entries'][('production', 'median')]),
+                            '{:.0f}   '.format(common.loc['raw_entries'][('production', 'amax')])))
     print(TABLE_ROW1.format('Processed events',
-                            '{:.0f}   '.format(common.loc['num_events'][('test', 'median')]),
-                            '{:.0f}   '.format(common.loc['num_events'][('test', 'amax')]),
-                            '{:.0f}   '.format(common.loc['num_events'][('prod', 'median')]),
-                            '{:.0f}   '.format(common.loc['num_events'][('prod', 'amax')])))
+                            '{:.0f}   '.format(common.loc['num_events'][('system-tests', 'median')]),
+                            '{:.0f}   '.format(common.loc['num_events'][('system-tests', 'amax')]),
+                            '{:.0f}   '.format(common.loc['num_events'][('production', 'median')]),
+                            '{:.0f}   '.format(common.loc['num_events'][('production', 'amax')])))
     print(TABLE_ROW1.format('Processed events/s',
-                            '{:.1f} '.format(common.loc['event_rate'][('test', 'median')]),
-                            '{:.1f} '.format(common.loc['event_rate'][('test', 'amax')]),
-                            '{:.1f} '.format(common.loc['event_rate'][('prod', 'median')]),
-                            '{:.1f} '.format(common.loc['event_rate'][('prod', 'amax')])))
+                            '{:.1f} '.format(common.loc['event_rate'][('system-tests', 'median')]),
+                            '{:.1f} '.format(common.loc['event_rate'][('system-tests', 'amax')]),
+                            '{:.1f} '.format(common.loc['event_rate'][('production', 'median')]),
+                            '{:.1f} '.format(common.loc['event_rate'][('production', 'amax')])))
     print(TABLE_ROW1.format('Preprocessor time',
-                            '{:.2f}'.format(common.loc['preproc_ntime'][('test', 'median')]),
-                            '{:.2f}'.format(common.loc['preproc_ntime'][('test', 'amax')]),
-                            '{:.2f}'.format(common.loc['preproc_ntime'][('prod', 'median')]),
-                            '{:.2f}'.format(common.loc['preproc_ntime'][('prod', 'amax')])))
+                            '{:.2f}'.format(common.loc['preproc_ntime'][('system-tests', 'median')]),
+                            '{:.2f}'.format(common.loc['preproc_ntime'][('system-tests', 'amax')]),
+                            '{:.2f}'.format(common.loc['preproc_ntime'][('production', 'median')]),
+                            '{:.2f}'.format(common.loc['preproc_ntime'][('production', 'amax')])))
     print(TABLE_SEP)
 
     # Performance per policy
