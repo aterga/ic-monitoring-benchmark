@@ -3,14 +3,26 @@
 set -e
 set -x
 
-INPUT_LOG="$1"  # e.g., "jmeisfhcqxtgy"
-GLOBAL_INFRA="$2"
+if [[ "$1" == "-l" ]]; then
+  INPUT_LOG="$2"
+  shift 2
+else
+  INPUT_LOG="./data/production.raw.log"
+fi
+
+GLOBAL_INFRA="./data/mercury-reg-snap--20220905_212707.json"
 
 OUTPUT_PREFIX="./data/offline/production"
 
 declare -a POLICIES=("clean_logs" "reboot_count" "logging_behavior__exe" "unauthorized_connections")
 
-for pol in "${POLICIES[@]}"
+if [[ -n "$1" ]]; then
+  declare -a RUN_POLICIES=("$@")
+else
+  declare -a RUN_POLICIES=("${POLICIES[@]}")
+fi
+
+for pol in "${RUN_POLICIES[@]}"
 do
     echo "Running offline monitoring (on production logs) for policy $pol ..."
     python3 ./policy-monitoring/main.py \

@@ -3,13 +3,24 @@
 set -e
 set -x
 
-INPUT_DIR="$1"  # e.g., "jmeisfhcqxtgy"
+if [[ "$1" == "-l" ]]; then
+  INPUT_DIR="$2"
+  shift 2
+else
+  INPUT_DIR="./data/system-tests"
+fi
 
 OUTPUT_PREFIX="./data/offline/system-tests"
 
 declare -a POLICIES=("clean_logs" "reboot_count" "logging_behavior__exe" "unauthorized_connections" "finalization_consistency" "finalized_height" "replica_divergence" "block_validation_latency")
 
-for pol in "${POLICIES[@]}"
+if [[ -n "$1" ]]; then
+  declare -a RUN_POLICIES=("$@")
+else
+  declare -a RUN_POLICIES=("${POLICIES[@]}")
+fi
+
+for pol in "${RUN_POLICIES[@]}"
 do
     echo "Running offline monitoring (on system test logs) for policy $pol ..."
     python3 ./policy-monitoring/main.py \

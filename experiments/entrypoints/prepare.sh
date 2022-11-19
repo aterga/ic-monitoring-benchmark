@@ -3,9 +3,14 @@
 set -e
 set -x
 
-#INPUT_LOG="data/mainnet--3h.raw.log"
-INPUT_LOG="$1"
-GLOBAL_INFRA="$2"
+if [[ "$1" == "-l" ]]; then
+  INPUT_LOG="$2"
+  shift 2
+else
+  INPUT_LOG="./data/production.raw.log"
+fi
+
+GLOBAL_INFRA="./data/mercury-reg-snap--20220905_212707.json"
 
 OUTPUT_PREFIX="./data/online/temp"
 PRODUCTION_LOG="./data/online/production.log"
