@@ -19,14 +19,6 @@ sys.path.append('policy-monitoring')
 import util.yaml  # required for parsing custom data types in the yaml files
 
 
-def parse_time(s):
-    """Parse elapsed real time printed by time(1) and return the total number of seconds."""
-    m = re.match(r'\s*(?:(\d+)h )?(\d+)m (\d+)(?:\.(\d+))?s', s)
-    hours = int(m.group(1))*3600 if m.group(1) else 0
-    fract = int(m.group(4)) / 10**len(m.group(4)) if m.group(4) else 0
-    result = hours + int(m.group(2))*60 + int(m.group(3)) + fract
-    return result
-
 def load_stat_file(scenario, filename):
     """Extract the relevant measurements from a yaml file produced by the pipeline.
 
@@ -38,7 +30,6 @@ def load_stat_file(scenario, filename):
       - test_runtime: duration of the system test execution (seconds)
       - num_events: number of events in the preprocessed log
       - num_violations: number of violations (lines) reported by MonPoly
-      - monpoly_time: elapsed real time while executing MonPoly (seconds)
       - monpoly_mem: maximum resident set size of the MonPoly process (MiB)
       - process_time: elapsed real time spent in the pipeline's wrapper around MonPoly (seconds)
       - preprocessor_time: elapsed real time spent preprocessing
@@ -69,7 +60,6 @@ def load_stat_file(scenario, filename):
                         float(preproc['test_runtime_milliseconds']) / 1000,
                         int(poldata['num_events']),
                         int(poldata['num_violations_reported']),
-                        parse_time(perf['elapsed_wall_clock_time_hmmss_or_mss']),
                         float(perf['maximum_resident_set_size_kbytes']) / 1024,
                         float(poldata['process_duration_seconds']),
                         float(preproc['pre_processing']['perf_counter_seconds']),
@@ -80,7 +70,7 @@ def load_stat_file(scenario, filename):
             else:
                 logging.warning("%s: No metrics for policy %s in pot %s. Timeout?", filename, policy, pot)
     return pd.DataFrame(data, columns=['scenario', 'pot', 'policy', 'exit_code', 'test_runtime',
-                                       'num_events', 'num_violations', 'monpoly_time',
+                                       'num_events', 'num_violations',
                                        'monpoly_mem', 'process_time', 'preprocessor_time',
                                        'nodes', 'subnets'])
 
@@ -95,7 +85,7 @@ def load_raw_counts(filename):
     data = []
     with open(filename, 'r') as f:
         for l in f:
-            m = re.match(r'^[^:]*?([^:/]+)\.raw\.log,(\d+)$', l)
+            m = re.match(r'^[^:]*?([^:/]+)\.log,(\d+)$', l)
             if m:
                 data.append([m.group(1), int(m.group(2))])
             else:
@@ -106,8 +96,8 @@ def load(basedir):
     """Load all measurements from the offline monitoring experiments."""
     logging.info("Searching for pipeline stats in %s", basedir)
     ds = []
-    for filename in glob.glob(basedir + '/offline/*/*-stat.yaml'):
-        m = re.match(r'.*/(production|system-tests)/[^/]+$', filename)
+    for filename in glob.glob(basedir + '/offline/*/*/stat.yaml'):
+        m = re.match(r'.*/(production|system-tests)/[^/]+/stat\.yaml$', filename)
         if m:
             ds.append(load_stat_file(m.group(1), filename))
 
@@ -151,25 +141,25 @@ def print_table(data):
     print(TABLE_HEADER.format('Measurement', 'Testing', 'Prod'))
     print(TABLE_SEP)
     print(TABLE_ROW1.format('Raw log entries',
-                            '{:.0f}   '.format(common.loc['raw_entries'][('system-tests', 'median')]),
-                            '{:.0f}   '.format(common.loc['raw_entries'][('system-tests', 'amax')]),
-                            '{:.0f}   '.format(common.loc['raw_entries'][('production', 'median')]),
-                            '{:.0f}   '.format(common.loc['raw_entries'][('production', 'amax')])))
+                            '{:.0f}   '.format(common.loc['raw_entries'].get(('system-tests', 'median'), np.nan)),
+                            '{:.0f}   '.format(common.loc['raw_entries'].get(('system-tests', 'amax'), np.nan)),
+                            '{:.0f}   '.format(common.loc['raw_entries'].get(('production', 'median'), np.nan)),
+                            '{:.0f}   '.format(common.loc['raw_entries'].get(('production', 'amax'), np.nan))))
     print(TABLE_ROW1.format('Processed events',
-                            '{:.0f}   '.format(common.loc['num_events'][('system-tests', 'median')]),
-                            '{:.0f}   '.format(common.loc['num_events'][('system-tests', 'amax')]),
-                            '{:.0f}   '.format(common.loc['num_events'][('production', 'median')]),
-                            '{:.0f}   '.format(common.loc['num_events'][('production', 'amax')])))
+                            '{:.0f}   '.format(common.loc['num_events'].get(('system-tests', 'median'), np.nan)),
+                            '{:.0f}   '.format(common.loc['num_events'].get(('system-tests', 'amax'), np.nan)),
+                            '{:.0f}   '.format(common.loc['num_events'].get(('production', 'median'), np.nan)),
+                            '{:.0f}   '.format(common.loc['num_events'].get(('production', 'amax'), np.nan))))
     print(TABLE_ROW1.format('Processed events/s',
-                            '{:.1f} '.format(common.loc['event_rate'][('system-tests', 'median')]),
-                            '{:.1f} '.format(common.loc['event_rate'][('system-tests', 'amax')]),
-                            '{:.1f} '.format(common.loc['event_rate'][('production', 'median')]),
-                            '{:.1f} '.format(common.loc['event_rate'][('production', 'amax')])))
+                            '{:.1f} '.format(common.loc['event_rate'].get(('system-tests', 'median'), np.nan)),
+                            '{:.1f} '.format(common.loc['event_rate'].get(('system-tests', 'amax'), np.nan)),
+                            '{:.1f} '.format(common.loc['event_rate'].get(('production', 'median'), np.nan)),
+                            '{:.1f} '.format(common.loc['event_rate'].get(('production', 'amax'), np.nan))))
     print(TABLE_ROW1.format('Preprocessor time',
-                            '{:.2f}'.format(common.loc['preproc_ntime'][('system-tests', 'median')]),
-                            '{:.2f}'.format(common.loc['preproc_ntime'][('system-tests', 'amax')]),
-                            '{:.2f}'.format(common.loc['preproc_ntime'][('production', 'median')]),
-                            '{:.2f}'.format(common.loc['preproc_ntime'][('production', 'amax')])))
+                            '{:.2f}'.format(common.loc['preproc_ntime'].get(('system-tests', 'median'), np.nan)),
+                            '{:.2f}'.format(common.loc['preproc_ntime'].get(('system-tests', 'amax'), np.nan)),
+                            '{:.2f}'.format(common.loc['preproc_ntime'].get(('production', 'median'), np.nan)),
+                            '{:.2f}'.format(common.loc['preproc_ntime'].get(('production', 'amax'), np.nan))))
     print(TABLE_SEP)
 
     # Performance per policy
@@ -190,16 +180,18 @@ def print_table(data):
             ]
 
     for p in POLICIES:
+        if p not in perf.index:
+            continue
         r = perf.loc[p]
         print(TABLE_ROW2.format(p,
-                               '{:.2f}'.format(r[0]),
-                               '{:.1f}'.format(r[1]),
-                               '{:.0f}'.format(r[2]),
-                               '{:.0f}'.format(r[3]),
-                               '{:.2f}'.format(r[4]),
-                               '{:.1f}'.format(r[5]),
-                               '{:.0f}'.format(r[6]),
-                               '{:.0f}'.format(r[7])))
+                               '{:.2f}'.format(r.get(('system-tests', 'monpoly_ntime', 'median'), np.nan)),
+                               '{:.1f}'.format(r.get(('system-tests', 'monpoly_ntime', 'amax'), np.nan)),
+                               '{:.0f}'.format(r.get(('system-tests', 'monpoly_mem', 'median'), np.nan)),
+                               '{:.0f}'.format(r.get(('system-tests', 'monpoly_mem', 'amax'), np.nan)),
+                               '{:.2f}'.format(r.get(('production', 'monpoly_ntime', 'median'), np.nan)),
+                               '{:.1f}'.format(r.get(('production', 'monpoly_ntime', 'amax'), np.nan)),
+                               '{:.0f}'.format(r.get(('production', 'monpoly_mem', 'median'), np.nan)),
+                               '{:.0f}'.format(r.get(('production', 'monpoly_mem', 'amax'), np.nan))))
     print(TABLE_SEP)
 
 if __name__ == '__main__':
