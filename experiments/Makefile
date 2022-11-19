@@ -1,6 +1,3 @@
-data/raw_counts.txt:
-	echo "TODO: $@"
-
 data/mainnet_index_rate.txt:
 	echo "Computing index rate graph for production log ..."
 	monpoly -sig policy-monitoring/mfotl-policies/predicates.sig \

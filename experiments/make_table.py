@@ -18,6 +18,44 @@ import pandas as pd
 sys.path.append('policy-monitoring')
 import util.yaml  # required for parsing custom data types in the yaml files
 
+BASEDIR = './data'
+
+
+log_stats_cache = {}
+
+def get_log_stats(name):
+    """Compute size statistics for the raw and processed logs of the given pot."""
+    global log_stats_cache
+    if name in log_stats_cache:
+        return log_stats_cache[name]
+
+    # Raw log
+    found = glob.glob(BASEDIR + '/**/' + name + '.log', recursive=True)
+    if len(found) >= 1:
+        filename = found[0]
+        if len(found) > 1:
+            logging.warning("Multiple raw logs matching %s, choosing %s", name, filename)
+        raw_size = os.path.getsize(filename) / 1024 / 1024  # MiB
+        with open(filename, 'r') as f:
+            raw_entries = sum(1 for line in f if not line.startswith(']'))
+    else:
+        logging.error("No raw log matching %s found", name)
+        raw_size = np.nan
+        raw_entries = np.nan
+
+    # Processed log
+    found = glob.glob(BASEDIR + '/**/' + name + '-*.unipol.log', recursive=True)
+    if len(found) >= 1:
+        # Multiple matches expected, files should be identical
+        filename = found[0]
+        processed_size = os.path.getsize(filename) / 1024 / 1024  # MiB
+    else:
+        logging.error("No processed log matching %s found", name)
+        processed_size = np.nan
+
+    stats = {'raw_size': raw_size, 'raw_entries': raw_entries, 'processed_size': processed_size}
+    log_stats_cache[name] = stats
+    return stats
 
 def load_stat_file(scenario, filename):
     """Extract the relevant measurements from a yaml file produced by the pipeline.
@@ -35,12 +73,16 @@ def load_stat_file(scenario, filename):
       - preprocessor_time: elapsed real time spent preprocessing
       - nodes: initial number of IC nodes
       - subnets: initial number of IC subnets
+      - raw_entries: number of entries in the raw log
+      - raw_size: size of the raw log (MiB)
+      - processed_size: size of the processed log (MiB)
     """
     logging.info("Loading %s", filename)
     with open(filename, 'r') as f:
         raw = yaml.full_load(stream=f)
     data = []
     for pot, potdata in raw.items():
+        log_stats = get_log_stats(pot)
         preproc = potdata['pre_processor']
         global_infra = potdata['global_infra']
         nodes = len(global_infra['original_nodes'])
@@ -64,51 +106,32 @@ def load_stat_file(scenario, filename):
                         float(poldata['process_duration_seconds']),
                         float(preproc['pre_processing']['perf_counter_seconds']),
                         nodes,
-                        subnets
+                        subnets,
+                        log_stats['raw_entries'],
+                        log_stats['raw_size'],
+                        log_stats['processed_size']
                         ]
                 data.append(row)
             else:
                 logging.warning("%s: No metrics for policy %s in pot %s. Timeout?", filename, policy, pot)
     return pd.DataFrame(data, columns=['scenario', 'pot', 'policy', 'exit_code', 'test_runtime',
-                                       'num_events', 'num_violations',
-                                       'monpoly_mem', 'process_time', 'preprocessor_time',
-                                       'nodes', 'subnets'])
+                                       'num_events', 'num_violations', 'monpoly_mem',
+                                       'process_time', 'preprocessor_time', 'nodes', 'subnets',
+                                       'raw_entries', 'raw_size', 'processed_size'])
 
-def load_raw_counts(filename):
-    """Load the number of raw log entries in each log file from the given csv file.
-
-    The returned DataFrame has the following columns:
-      - pot: name of the system test, or 'mainnet*' for the production log
-      - raw_entries: number of raw log entries
-    """
-    logging.info("Loading %s", filename)
-    data = []
-    with open(filename, 'r') as f:
-        for l in f:
-            m = re.match(r'^[^:]*?([^:/]+)\.log,(\d+)$', l)
-            if m:
-                data.append([m.group(1), int(m.group(2))])
-            else:
-                logging.warning("%s: Skipping line \"%s\"", filename, l)
-    return pd.DataFrame(data, columns=['pot', 'raw_entries'])
-
-def load(basedir):
+def load():
     """Load all measurements from the offline monitoring experiments."""
-    logging.info("Searching for pipeline stats in %s", basedir)
+    logging.info("Searching for pipeline stats in %s", BASEDIR)
     ds = []
-    for filename in glob.glob(basedir + '/offline/*/*/stat.yaml'):
+    for filename in glob.glob(BASEDIR + '/offline/*/*/stat.yaml'):
         m = re.match(r'.*/(production|system-tests)/[^/]+/stat\.yaml$', filename)
         if m:
             ds.append(load_stat_file(m.group(1), filename))
-
-    raw_counts = load_raw_counts(basedir + '/raw_counts.txt')
     logging.info("Loaded all files")
 
-    # Combine pipeline stats and raw event counts
+    # Combine pipeline stats
     data = pd.concat(ds)
     data.reset_index(drop=True, inplace=True)
-    raw_counts.set_index('pot', inplace=True)
-    data = data.join(raw_counts, on='pot', how='left')
 
     # Compute derived statistics
     data['monpoly_ntime'] = data['process_time'] / data['num_events'] * 1000  # milliseconds
@@ -128,8 +151,10 @@ def print_table(data):
     logs = data[data['policy'] == 'clean_logs'].groupby('scenario').agg(
             {
                 'raw_entries': [np.median, np.max],
+                'raw_size': [np.median, np.max],
                 'num_events': [np.median, np.max],
-                'event_rate': [np.median, np.max]
+                'event_rate': [np.median, np.max],
+                'processed_size': [np.median, np.max],
             })
     preproc = data.groupby('scenario').agg({'preproc_ntime': [np.median, np.max]})
 
@@ -145,6 +170,11 @@ def print_table(data):
                             '{:.0f}   '.format(common.loc['raw_entries'].get(('system-tests', 'amax'), np.nan)),
                             '{:.0f}   '.format(common.loc['raw_entries'].get(('production', 'median'), np.nan)),
                             '{:.0f}   '.format(common.loc['raw_entries'].get(('production', 'amax'), np.nan))))
+    print(TABLE_ROW1.format('Raw log size',
+                            '{:.1f} '.format(common.loc['raw_size'].get(('system-tests', 'median'), np.nan)),
+                            '{:.1f} '.format(common.loc['raw_size'].get(('system-tests', 'amax'), np.nan)),
+                            '{:.1f} '.format(common.loc['raw_size'].get(('production', 'median'), np.nan)),
+                            '{:.1f} '.format(common.loc['raw_size'].get(('production', 'amax'), np.nan))))
     print(TABLE_ROW1.format('Processed events',
                             '{:.0f}   '.format(common.loc['num_events'].get(('system-tests', 'median'), np.nan)),
                             '{:.0f}   '.format(common.loc['num_events'].get(('system-tests', 'amax'), np.nan)),
@@ -155,6 +185,11 @@ def print_table(data):
                             '{:.1f} '.format(common.loc['event_rate'].get(('system-tests', 'amax'), np.nan)),
                             '{:.1f} '.format(common.loc['event_rate'].get(('production', 'median'), np.nan)),
                             '{:.1f} '.format(common.loc['event_rate'].get(('production', 'amax'), np.nan))))
+    print(TABLE_ROW1.format('Processed log size',
+                            '{:.1f} '.format(common.loc['processed_size'].get(('system-tests', 'median'), np.nan)),
+                            '{:.1f} '.format(common.loc['processed_size'].get(('system-tests', 'amax'), np.nan)),
+                            '{:.1f} '.format(common.loc['processed_size'].get(('production', 'median'), np.nan)),
+                            '{:.1f} '.format(common.loc['processed_size'].get(('production', 'amax'), np.nan))))
     print(TABLE_ROW1.format('Preprocessor time',
                             '{:.2f}'.format(common.loc['preproc_ntime'].get(('system-tests', 'median'), np.nan)),
                             '{:.2f}'.format(common.loc['preproc_ntime'].get(('system-tests', 'amax'), np.nan)),
@@ -195,5 +230,5 @@ def print_table(data):
     print(TABLE_SEP)
 
 if __name__ == '__main__':
-    data = load('data')
+    data = load()
     print_table(data)
