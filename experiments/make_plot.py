@@ -77,6 +77,8 @@ def make_plot(index_rate, policies):
     ylim = 1000
 
     fig, axs = plt.subplots(1, len(policies), sharey=True)
+    if len(policies) == 1:
+        axs = [axs]
     axs2 = [ax.twinx() for ax in axs]
     axs[-1].get_shared_y_axes().join(*axs2)
     for axsnd in axs2[:-1]:
