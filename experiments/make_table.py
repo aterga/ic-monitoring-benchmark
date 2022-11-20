@@ -26,6 +26,9 @@ log_stats_cache = {}
 def get_log_stats(name):
     """Compute size statistics for the raw and processed logs of the given pot."""
     global log_stats_cache
+
+    name = name.replace("--pseudo", "")
+
     if name in log_stats_cache:
         return log_stats_cache[name]
 
