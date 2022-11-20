@@ -33,7 +33,7 @@ def get_log_stats(name):
         return log_stats_cache[name]
 
     # Raw log
-    found = glob.glob(BASEDIR + '/**/' + name + '.log', recursive=True)
+    found = glob.glob(BASEDIR + '/**/' + name + '.raw.log', recursive=True)
     if len(found) >= 1:
         filename = found[0]
         if len(found) > 1:
