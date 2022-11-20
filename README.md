@@ -1,6 +1,8 @@
 Monitoring the Internet Computer (Evaluation Artifact)
 ======================================================
 
+
+
 Synopsis
 --------
 
@@ -11,9 +13,14 @@ paper, the raw log files that were used in the evaluation, and all tools
 necessary to replicate the experimental results, specifically those reported in
 Table 2 and Figure 5 in the paper.
 
+This file contains three parts: 
+1. overview of the artifact files
+2. instructions for setting up the experiments
+3. instructions for replicating the experiments
 
-Files
------
+
+Overview of the Artifact Files
+------------------------------
 
 The archive `ic-monitoring-benchmark.tar` contains a ready-to-use docker image
 with all tools and dependencies preinstalled. See the section on replication
@@ -41,7 +48,7 @@ inspection of the artifact, as well as to facilitate reuse and extensions. If
 desired, the image can be rebuilt by running `docker build -t
 ic-monitoring-benchmark`.
 
-Summary of the remaining files:
+### Summary of the remaining files:
 
 - `monpoly/`: Source code (OCaml) of the MonPoly monitoring tool. This is a copy
   of commit f2825be8fa1a0684dd0eb1da8c6f5cd87724d0f2 from
@@ -82,8 +89,7 @@ Summary of the remaining files:
 - `Dockerfile`: For building the docker image.
 
 
-Policy formulas
----------------
+### Policy formulas
 
 We provide formalizations of all policies described in the paper. There is
 a folder in `src/policy-monitoring/mfotl-policies` for every policy. (The
@@ -101,24 +107,34 @@ Joshua Schneider, Dmitriy Traytel. TACAS 2022: 236-253
 <https://doi.org/10.1007/978-3-030-99527-0_13>).
 
 
-Setup
------
+Setting up the Experiments
+--------------------------
 
-### Prerequisites
+Our artifact is shipped as a Docker image; we therefore assume that the user has Docker installed on their host system.
 
-Minimal requirements:
+We tested the artifact on a system running Linux 5.4.0 (Docker version 20.10.21, build `baeda1f`), but other OS supporting Docker should also work.
 
-- Docker
-- ???GB of RAM
-- ???GB of free disk space, excluding the supplied files
+### System requirements
 
-The authors originally performed the experiments on a server with two 3 GHz
-16-core AMD EPYC 7302 CPUs, a SSD, and 512 GiB RAM, running under Linux 5.4.0.
+- **CPU:** We tested the artifact on a server with two 3 GHz 16-core AMD EPYC 7302 CPUs. 
+- **RAM:** 180 GiB for running the full set of experiments. **Note** 8 GiB of RAM is sufficient for running a reduced set of representative experiments.
+- **Disk space:** At least ca. 80 GB of free disk space (ca. 60 GB is the size of the artifact itself)
+- **Time:** TODO
+
+| Group                       | Time (full experiments) | Time (reduced set)
+| ----------------------------|-------------------------|--------------------
+| offline system tests        | 6h (???)                | 30m
+| offline production          | 11h so far              | 2h
+| online production (prepare) | 2 hours                 | 2h
+| online production (monitor) | 8 hours                 | 3h
 
 ### Preparation
 
-Ensure that you have a copy of all artifact files on a local disk. The command
-lines in the following instructions should be executed in a bash shell, whose
+1. Download the artifact archive from Zenodo (TODO: link)
+2. Unpack archive (TODO)
+
+Ensure that you have a copy of all artifact files on your local disk. The command
+lines in the following instructions should be executed in a Bash shell, whose
 current working directory contains the artifact files. It must be writable, as
 the output of various programs is stored within the `data` subfolder. If you do
 not use bash, you might need to adjust the commands.
@@ -299,9 +315,9 @@ These only monitor the `clean_logs` (offline and online) and `reboot_count`
 (offline) policies. It is again possible to run only a subset of the three
 experiment groups. The expected running times are
 
-| Group                       | Time        |
-| ----------------------------|-------------|
-| offline system tests        | ??? minutes |
-| offline production          | ??? hours   |
-| online production (prepare) | 2 hours     |
-| online production (monitor) | 3.5 hours   |
+| Group                       | Time (full experiments) | Time (reduced set)
+| ----------------------------|-------------------------|--------------------
+| offline system tests        | 6h (???)                | 30m
+| offline production          | 11h so far              | 2h
+| online production (prepare) | 2 hours                 | 2h
+| online production (monitor) | 8 hours                 | 3h
