@@ -1,10 +1,12 @@
 # Setup validation
 
+Please follow steps A-C below to validate that the artifact is set up correctly.
+
 **Note:** the instructions in this section are intended for validating that this artifact is _functional_. The validation steps will take a short time to execute, but the data produced by running these validation steps do not represent our paper's results. For replicating the actual paper experiments, please follow the instructions _after_ this section.
 
 ----
 
-### Validating the **online** monitoring benchmark
+### A. Validating the **online** monitoring benchmark
 
 Run the following commands to validate the online monitoring experiment (for our simplest policy, `clean_logs`) based on (a small prefix of) the production logs.
 
@@ -20,7 +22,7 @@ The expected output graphic in `data/online/latency.png` should look like this:
 
 ----
 
-### Validating the offline monitoring benchmark (based on **system test logs**)
+### B. Validating the offline monitoring benchmark (based on **system test logs**)
 
 Run the following commands to validate the offline monitoring experiment based on (a small subset of) the system test logs. 
 
@@ -58,7 +60,7 @@ invoked for validating the artifact setup).
 
 ----
 
-### Validating the offline monitoring benchmark (based on **production logs**)
+### C. Validating the offline monitoring benchmark (based on **production logs**)
 
 Run the following commands to validate the offline monitoring experiment (for our simplest policy, `clean_logs`) based on (a small prefix of) the production logs. 
 
