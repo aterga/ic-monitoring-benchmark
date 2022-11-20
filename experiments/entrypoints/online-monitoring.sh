@@ -33,3 +33,5 @@ do
 	    -no_rw \
 	    -formula "$formula"
 done
+
+python3 ./experiments/make_plot.py
