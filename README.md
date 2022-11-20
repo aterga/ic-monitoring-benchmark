@@ -119,7 +119,7 @@ We tested the artifact on a system running Linux 5.4.0 (Docker version 20.10.21,
 
 - **CPU:** We tested the artifact on a server with two 3 GHz 16-core AMD EPYC 7302 CPUs. 
 - **RAM:** 180 GiB for running the full set of experiments. **Note** 8 GiB of RAM is sufficient for running a reduced set of representative experiments.
-- **Disk space:** At least ca. 80 GB of free disk space (ca. 60 GB is the size of the artifact itself)
+- **Disk space:** At least ca. 80 GB of free disk space, of which ca. 60 GB is the (uncompressed) artifact.
 - **Time:** TODO
 
 | Group                       | Time (full experiments) | Time (reduced set)
