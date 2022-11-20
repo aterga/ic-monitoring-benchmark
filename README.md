@@ -29,10 +29,10 @@ They are provided separately in the `data` folder, specifically:
   nightly system test. The file names have a numeric suffix that distinguishes
   the different runs; the rest of the name identifies the system test.
 
-Each raw log file contains a single JSON array with the events. The events were
-obtained in this format from the IC's ElasticSearch server.
+Each raw log file contains a single array (in Python format) with the log entries
+ from IC nodes.
 
-By following the replication instructions, the folder that contains this readme
+By following the instructions below, the folder that contains this readme file
 is mounted as a volume within the docker container. All scripts in the
 `policy-monitoring` and `experiment` subfolders are directly executed from this
 volume and can thus be edited without rebuilding the docker image. In addition,
@@ -59,7 +59,7 @@ Summary of the remaining files:
   - `pipeline/`: Contains the log preprocessor.
   - `main.py`: Entry point for running the pipeline.
 
-- `experiments/`: Scripts that prepare, execute, and summary our performance
+- `experiments/`: Scripts that prepare, execute, and summarize our performance
   experiments.
   - `entrypoints/*.sh`: Driver scripts, see below.
   - `simulate_online.sh`: Combines MonPoly and the real-time stream simulator
@@ -127,7 +127,7 @@ Run the command
 
 to import the docker image. Then execute
 
-    $ docker run -itv `pwd`:/work localhost/ic-monitoring-benchmark
+    $ docker run -itv `pwd`:/work ic-monitoring-benchmark
 
 to start the container, mounting the current working directory. You are now in
 a bash session running in the container. The following commands must be issued
