@@ -1,0 +1,870 @@
+{
+  "__version": 1,
+  "blessed_replica_versions": {
+    "blessed_version_ids": [
+      "7204d5d88aebd0f839eb2f1fe66f1bc9378fadf5"
+    ]
+  },
+  "catch_up_package_contents_jglbu-nv2vj-bnf7c-jpq3b-6ziw4-vy7wt-xj5m5-plsyr-lopwk-k7lec-eqe": {
+    "ecdsa_initializations": "(binary-data)",
+    "height": 0,
+    "initial_ni_dkg_transcript_high_threshold": {
+      "committee": [
+        "(principal-id)rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe",
+        "(principal-id)dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe",
+        "(principal-id)6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe",
+        "(principal-id)n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe"
+      ],
+      "id": {
+        "dealer_subnet": "(principal-id)fscpm-uiaaa-aaaaa-aaaap-yai",
+        "dkg_tag": 2,
+        "remote_target_id": "(binary-data)BFE3C026ADC1C6699ACAC54605F48D283F2A71E71BF297AAB58E84E9F78FCDA2",
+        "start_block_height": 0
+      },
+      "internal_csp_transcript": "(binary-data|sha256)B6CADD1D9C76E59BB5D59450DDA1DBE0807307846CEAFE2A1C2F8F85F84E5ADF",
+      "registry_version": 1,
+      "threshold": 3
+    },
+    "initial_ni_dkg_transcript_low_threshold": {
+      "committee": [
+        "(principal-id)rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe",
+        "(principal-id)dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe",
+        "(principal-id)6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe",
+        "(principal-id)n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe"
+      ],
+      "id": {
+        "dealer_subnet": "(principal-id)fscpm-uiaaa-aaaaa-aaaap-yai",
+        "dkg_tag": 1,
+        "remote_target_id": "(binary-data)BFE3C026ADC1C6699ACAC54605F48D283F2A71E71BF297AAB58E84E9F78FCDA2",
+        "start_block_height": 0
+      },
+      "internal_csp_transcript": "(binary-data|sha256)8C6B170CB977A281C2BA188100F472C4FE4BAEBFE0BDDA1FB7B0805543CBC6B0",
+      "registry_version": 1,
+      "threshold": 2
+    },
+    "registry_store_uri": null,
+    "state_hash": "(binary-data)",
+    "time": 0
+  },
+  "catch_up_package_contents_ruhoe-majmh-ec6w7-v6vo3-lrvox-ycveh-wxhbd-ue54n-irsvq-r4pzi-wae": {
+    "ecdsa_initializations": "(binary-data)",
+    "height": 0,
+    "initial_ni_dkg_transcript_high_threshold": {
+      "committee": [
+        "(principal-id)al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae",
+        "(principal-id)czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae",
+        "(principal-id)hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae",
+        "(principal-id)y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe"
+      ],
+      "id": {
+        "dealer_subnet": "(principal-id)yndj2-3ybaa-aaaaa-aaaap-yai",
+        "dkg_tag": 2,
+        "remote_target_id": "(binary-data)FEBA292313F7F88BE8E11F50DBF0A8118B032E786CF6814C1C50826327C98944",
+        "start_block_height": 0
+      },
+      "internal_csp_transcript": "(binary-data|sha256)4F7E9E09455B1140F084B19393C85AF0DA7FEC3C6134018A5C0E3C70344BBABD",
+      "registry_version": 1,
+      "threshold": 3
+    },
+    "initial_ni_dkg_transcript_low_threshold": {
+      "committee": [
+        "(principal-id)al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae",
+        "(principal-id)czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae",
+        "(principal-id)hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae",
+        "(principal-id)y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe"
+      ],
+      "id": {
+        "dealer_subnet": "(principal-id)yndj2-3ybaa-aaaaa-aaaap-yai",
+        "dkg_tag": 1,
+        "remote_target_id": "(binary-data)FEBA292313F7F88BE8E11F50DBF0A8118B032E786CF6814C1C50826327C98944",
+        "start_block_height": 0
+      },
+      "internal_csp_transcript": "(binary-data|sha256)DC48A52564FBCC99AD60AD347808BBEA0D7B2F894DA84AF9BE1AC5679619808C",
+      "registry_version": 1,
+      "threshold": 2
+    },
+    "registry_store_uri": null,
+    "state_hash": "(binary-data)",
+    "time": 0
+  },
+  "crypto_record_6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe_1": {
+    "algorithm": 7,
+    "key_value": "(binary-data)69BFC5404E133529333535CCB4B57BC0E6096B7CA800DC8B381762490670425A",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe_3": {
+    "algorithm": 9,
+    "key_value": "(binary-data|sha256)630A4F6418A3CA263CC9824BCD454C4DE401D4D92BF68194C0FA19C3BBBD6123",
+    "proof_data": "(binary-data|sha256)9BA1E2EB7E0B7A8A675FA154FDDA8632AEE11A7EB6BF22CC2856C396514A0E90",
+    "version": 0
+  },
+  "crypto_record_6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe_4": {
+    "algorithm": 1,
+    "key_value": "(binary-data|sha256)D2080A674B89E9F4A9678192301FDB6B1407E51CAC812D92224634E2C19A9C5C",
+    "proof_data": "(binary-data|sha256)0A0A65A7BAD13F3F28109456917D0B516F424B6F61C943BD6F9FD499EF45C14C",
+    "version": 0
+  },
+  "crypto_record_6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe_5": {
+    "algorithm": 16,
+    "key_value": "(binary-data|sha256)5F29F157B47DFBEEFB40570603EC4FCB7F5256A648F5B9640235EDE3C39B2072",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae_1": {
+    "algorithm": 7,
+    "key_value": "(binary-data)19B2FCADD1124969E0BE9256B77E71E819A5C819045D6B5D9B7025A9EB3B690D",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae_3": {
+    "algorithm": 9,
+    "key_value": "(binary-data|sha256)FCB2D57F6BABC723EFDE44E445398E7ED9D606E51C4CB0D32DFAC610DEC916B6",
+    "proof_data": "(binary-data|sha256)1DE9BBCB6B27A8824CE73C96DC8A7395388072791E463796814C260446EBA370",
+    "version": 0
+  },
+  "crypto_record_al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae_4": {
+    "algorithm": 1,
+    "key_value": "(binary-data|sha256)1E5E463CBF46F7FAD97B0BC01E6C9C3FEB124A4D77C87A5D8A934E528EBF3FB5",
+    "proof_data": "(binary-data|sha256)77A6844D6001DB9243585066CFD509E87ED288163EFEDB920A4907FB10794A9D",
+    "version": 0
+  },
+  "crypto_record_al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae_5": {
+    "algorithm": 16,
+    "key_value": "(binary-data|sha256)72597D8132EB8C0B4BA3E661401D53C5BB4E12FD57A655866A4C68646A91E344",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae_1": {
+    "algorithm": 7,
+    "key_value": "(binary-data)33498DA5CB34E3FC941904B4785B46C85A807D16C22FD67641246323B4911019",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae_3": {
+    "algorithm": 9,
+    "key_value": "(binary-data|sha256)A40AFB1A1B7CA27F0721AC037412D7BE0FBDB07D1CCB3ACAD6414B2F6B0D0988",
+    "proof_data": "(binary-data|sha256)B89FF6EC014AFB039C859207CA06F4E07C52229D6C52118CD07946FF3664795B",
+    "version": 0
+  },
+  "crypto_record_czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae_4": {
+    "algorithm": 1,
+    "key_value": "(binary-data|sha256)B0B42A549542740607FE8826F9A14750E4C876B46B0B10D5359E476484E45EA4",
+    "proof_data": "(binary-data|sha256)7F246E23DA1831E805E8DDBAACD09F23C6DD8E2B1876AED6A584EFA00E1AB0C4",
+    "version": 0
+  },
+  "crypto_record_czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae_5": {
+    "algorithm": 16,
+    "key_value": "(binary-data|sha256)C78DA58F3E393C93ED12D7EFE3BDD987853A2AC6886F976A9AFD52A4C50EEA5B",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe_1": {
+    "algorithm": 7,
+    "key_value": "(binary-data)AAA311888F9177F686C85A92DE24A76276EF5433BC626ED0801C6401BF064EA9",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe_3": {
+    "algorithm": 9,
+    "key_value": "(binary-data|sha256)296E9BD25A92C2C69A6C72692F5EEC991B1AA3261F8A9AE707849B14E2B92036",
+    "proof_data": "(binary-data|sha256)52EDB81BC8DF76582FBF81AE62A0863A52170647AA1500073E9AF1C1D9DAF457",
+    "version": 0
+  },
+  "crypto_record_dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe_4": {
+    "algorithm": 1,
+    "key_value": "(binary-data|sha256)42E1A7058CA963381119615AEC4AC05036B4CF85B0A3C583025A9F5513841BE6",
+    "proof_data": "(binary-data|sha256)4DF6FC7B4BC541D399B4765C87C79A0AB382FD4665DC9A298821F09EA48D3E2F",
+    "version": 0
+  },
+  "crypto_record_dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe_5": {
+    "algorithm": 16,
+    "key_value": "(binary-data|sha256)2B42487C8349B80B931E2B1644D82CE9264460CFA153A07BFBEFF15ED9253936",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae_1": {
+    "algorithm": 7,
+    "key_value": "(binary-data)7099E3CF3DE41AF97BC29AD278138FE839F6C6150FE57C068D75CBA8C3F4BF25",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae_3": {
+    "algorithm": 9,
+    "key_value": "(binary-data|sha256)E9C9205C1C001A99EB1D03A096F4894F40FAEF9579F3A115FEA3781FEAD39698",
+    "proof_data": "(binary-data|sha256)A0E32B8896D07AF9417ACB50502926DE0554906CD75A5B95396A9ECB035E37A5",
+    "version": 0
+  },
+  "crypto_record_hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae_4": {
+    "algorithm": 1,
+    "key_value": "(binary-data|sha256)A3F319781130A9BE704D4C9F8052692C0C48C8BE5BDF11605AE5287F35A58DB9",
+    "proof_data": "(binary-data|sha256)1BD49E4CEE69C98DE7794F8D2BA0C3F60BBEE1FC567DCAAEBE3476E491614CEC",
+    "version": 0
+  },
+  "crypto_record_hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae_5": {
+    "algorithm": 16,
+    "key_value": "(binary-data|sha256)7C33264F104DFA66F934E31FBBF5AFD4BC54B4B6B1C58017868597ED3BCC9091",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe_1": {
+    "algorithm": 7,
+    "key_value": "(binary-data)E7C8B5788DFC7F906E38098209FB47E9B36008BF5AD4F8632727451EE7CD51FE",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe_3": {
+    "algorithm": 9,
+    "key_value": "(binary-data|sha256)7E081A660F65FEDD150FA9D4752F21ECCE697BF233A84AF3E508E7418EB739B9",
+    "proof_data": "(binary-data|sha256)CF53F1563C7CEAB87870503D7B4623ADC253525C5A1C4089560AD1A89CE5323C",
+    "version": 0
+  },
+  "crypto_record_n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe_4": {
+    "algorithm": 1,
+    "key_value": "(binary-data|sha256)CFE190EBD6A1D6C52349C8D7E925608B8AF4CEEB0ADD3A8752A2CFCD20A40187",
+    "proof_data": "(binary-data|sha256)1AD75FFA7C56887DE4557F4BD807ABAA9D91BC1355A30A875E2B660F2BBCA559",
+    "version": 0
+  },
+  "crypto_record_n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe_5": {
+    "algorithm": 16,
+    "key_value": "(binary-data|sha256)E87EEF96177FFE1A7142972EE99579D83B43298EBE44017DFD21ADA785C51E29",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe_1": {
+    "algorithm": 7,
+    "key_value": "(binary-data)55DCBD189C0AF7A453244B5BAA4CB06214391FEB98969E18CF340CAD6354C44A",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe_3": {
+    "algorithm": 9,
+    "key_value": "(binary-data|sha256)2A20BD8244253890D77114240F3B7D2B925B0EE034810D3433300F18DDCC9ECF",
+    "proof_data": "(binary-data|sha256)4D07D759142E98018368130D7AAA1D9A2FA917CF9DBDA9907FBFDEDC7EDCC4DC",
+    "version": 0
+  },
+  "crypto_record_rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe_4": {
+    "algorithm": 1,
+    "key_value": "(binary-data|sha256)6A98FA4D83131734DB0D745DD8251DF8163AF8A5771A315A21D59C5204A0BB19",
+    "proof_data": "(binary-data|sha256)5AC84EA63F175CC3F16B73DE61B2A66DDD1BCBBF468BBA624C4278F66AEEAF03",
+    "version": 0
+  },
+  "crypto_record_rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe_5": {
+    "algorithm": 16,
+    "key_value": "(binary-data|sha256)676C1201BBA69E42150722210ADE150C0E746487F58CF95805A7C02B4BD902B8",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe_1": {
+    "algorithm": 7,
+    "key_value": "(binary-data)311693CA0642DE69C0B9C039BFCE34CC82AA4F438A23A67781358F839649F14C",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_record_y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe_3": {
+    "algorithm": 9,
+    "key_value": "(binary-data|sha256)E296B7F64156FFC26B453690BCA0B19A5154ECD98FD99878324C19F74254A34E",
+    "proof_data": "(binary-data|sha256)429BD5999898CD08C9C6C1F979EA89B6DF7F6592AEDBD5C375AB874C7D32CC5A",
+    "version": 0
+  },
+  "crypto_record_y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe_4": {
+    "algorithm": 1,
+    "key_value": "(binary-data|sha256)D96CC5B42DD062C6DEC516DD73083FF512F1C9B2E74F4E67704B759EDD3E2F20",
+    "proof_data": "(binary-data|sha256)93E2E3C8A44BDCA565FBBABDA3C50C142ED256127FCAEDF670C70A30AEE9166E",
+    "version": 0
+  },
+  "crypto_record_y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe_5": {
+    "algorithm": 16,
+    "key_value": "(binary-data|sha256)7E99548079B797A34784D1C6FDB3E8FF410FCB67D91FE5869FAEE96133D56D12",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_threshold_signing_public_key_jglbu-nv2vj-bnf7c-jpq3b-6ziw4-vy7wt-xj5m5-plsyr-lopwk-k7lec-eqe": {
+    "algorithm": 2,
+    "key_value": "(binary-data|sha256)354CAA18A210B50E912EE004CC6D2E029A5B7DF38D472AEFA7101B1A4AA5A43D",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_threshold_signing_public_key_ruhoe-majmh-ec6w7-v6vo3-lrvox-ycveh-wxhbd-ue54n-irsvq-r4pzi-wae": {
+    "algorithm": 2,
+    "key_value": "(binary-data|sha256)28465D726915FAFCF3B88BF861015739A62A821925818C1834FF2BE8A0DC10BA",
+    "proof_data": null,
+    "version": 0
+  },
+  "crypto_tls_cert_6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe": {
+    "certificate_der": "(binary-data|sha256)1D00173F1BA0C07A13E0217420A358DFD71CCA46A5039D34218DC245509A2DE3"
+  },
+  "crypto_tls_cert_al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae": {
+    "certificate_der": "(binary-data|sha256)ABA729207A65A417F392BC87AF3546F6998A13966EE1A402A6AF00AF8AFB9349"
+  },
+  "crypto_tls_cert_czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae": {
+    "certificate_der": "(binary-data|sha256)5A0FD9DA65CC56E8CFA2D832230FD99556F97B4CE207C5194C68D0E6DE5710EA"
+  },
+  "crypto_tls_cert_dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe": {
+    "certificate_der": "(binary-data|sha256)607F452C1C64D283ABBCC6428AF7B98EC2D6E3EB4C4B6CE68B6B01B4E25EF1FC"
+  },
+  "crypto_tls_cert_hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae": {
+    "certificate_der": "(binary-data|sha256)E19B7EFB36334FF279DBB5756D908BA2F47DD5D94E277508803FEA710618614C"
+  },
+  "crypto_tls_cert_n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe": {
+    "certificate_der": "(binary-data|sha256)48A1625A000D12D5515A97D759F6FE429252B989D71DD80CAFDD35B54006DE78"
+  },
+  "crypto_tls_cert_rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe": {
+    "certificate_der": "(binary-data|sha256)504DC771A87F8CC25F35062B8909FB40E7D5D81060AF44571E3412C27CC03F00"
+  },
+  "crypto_tls_cert_y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe": {
+    "certificate_der": "(binary-data|sha256)445D6EA94FB1543418394656CE9B7D73E8008E31FC9D6261E2551116BFCEBA4B"
+  },
+  "nns_subnet_id": {
+    "principal_id": {
+      "raw": "(principal-id)jglbu-nv2vj-bnf7c-jpq3b-6ziw4-vy7wt-xj5m5-plsyr-lopwk-k7lec-eqe"
+    }
+  },
+  "node_record_6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe": {
+    "http": {
+      "ip_addr": "2a00:fb01:400:42:50f8:b8ff:fe58:5a92",
+      "port": 8080,
+      "protocol": 1
+    },
+    "node_operator_id": "(binary-data)",
+    "p2p_flow_endpoints": [
+      {
+        "endpoint": {
+          "ip_addr": "2a00:fb01:400:42:50f8:b8ff:fe58:5a92",
+          "port": 4100,
+          "protocol": 3
+        },
+        "flow_tag": 1234
+      }
+    ],
+    "private_api": "(binary-data)",
+    "prometheus_metrics": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50f8:b8ff:fe58:5a92",
+        "port": 9090,
+        "protocol": 1
+      }
+    ],
+    "prometheus_metrics_http": {
+      "ip_addr": "2a00:fb01:400:42:50f8:b8ff:fe58:5a92",
+      "port": 9090,
+      "protocol": 1
+    },
+    "public_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50f8:b8ff:fe58:5a92",
+        "port": 8080,
+        "protocol": 1
+      }
+    ],
+    "xnet": {
+      "ip_addr": "2a00:fb01:400:42:50f8:b8ff:fe58:5a92",
+      "port": 2497,
+      "protocol": 1
+    },
+    "xnet_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50f8:b8ff:fe58:5a92",
+        "port": 2497,
+        "protocol": 1
+      }
+    ]
+  },
+  "node_record_al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae": {
+    "http": {
+      "ip_addr": "2a00:fb01:400:42:5060:d8ff:fee9:3b2e",
+      "port": 8080,
+      "protocol": 1
+    },
+    "node_operator_id": "(binary-data)",
+    "p2p_flow_endpoints": [
+      {
+        "endpoint": {
+          "ip_addr": "2a00:fb01:400:42:5060:d8ff:fee9:3b2e",
+          "port": 4100,
+          "protocol": 3
+        },
+        "flow_tag": 1234
+      }
+    ],
+    "private_api": "(binary-data)",
+    "prometheus_metrics": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5060:d8ff:fee9:3b2e",
+        "port": 9090,
+        "protocol": 1
+      }
+    ],
+    "prometheus_metrics_http": {
+      "ip_addr": "2a00:fb01:400:42:5060:d8ff:fee9:3b2e",
+      "port": 9090,
+      "protocol": 1
+    },
+    "public_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5060:d8ff:fee9:3b2e",
+        "port": 8080,
+        "protocol": 1
+      }
+    ],
+    "xnet": {
+      "ip_addr": "2a00:fb01:400:42:5060:d8ff:fee9:3b2e",
+      "port": 2497,
+      "protocol": 1
+    },
+    "xnet_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5060:d8ff:fee9:3b2e",
+        "port": 2497,
+        "protocol": 1
+      }
+    ]
+  },
+  "node_record_czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae": {
+    "http": {
+      "ip_addr": "2a00:fb01:400:42:50ff:aeff:feeb:7376",
+      "port": 8080,
+      "protocol": 1
+    },
+    "node_operator_id": "(binary-data)",
+    "p2p_flow_endpoints": [
+      {
+        "endpoint": {
+          "ip_addr": "2a00:fb01:400:42:50ff:aeff:feeb:7376",
+          "port": 4100,
+          "protocol": 3
+        },
+        "flow_tag": 1234
+      }
+    ],
+    "private_api": "(binary-data)",
+    "prometheus_metrics": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50ff:aeff:feeb:7376",
+        "port": 9090,
+        "protocol": 1
+      }
+    ],
+    "prometheus_metrics_http": {
+      "ip_addr": "2a00:fb01:400:42:50ff:aeff:feeb:7376",
+      "port": 9090,
+      "protocol": 1
+    },
+    "public_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50ff:aeff:feeb:7376",
+        "port": 8080,
+        "protocol": 1
+      }
+    ],
+    "xnet": {
+      "ip_addr": "2a00:fb01:400:42:50ff:aeff:feeb:7376",
+      "port": 2497,
+      "protocol": 1
+    },
+    "xnet_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50ff:aeff:feeb:7376",
+        "port": 2497,
+        "protocol": 1
+      }
+    ]
+  },
+  "node_record_dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe": {
+    "http": {
+      "ip_addr": "2a00:fb01:400:42:5084:69ff:fe4a:9ee4",
+      "port": 8080,
+      "protocol": 1
+    },
+    "node_operator_id": "(binary-data)",
+    "p2p_flow_endpoints": [
+      {
+        "endpoint": {
+          "ip_addr": "2a00:fb01:400:42:5084:69ff:fe4a:9ee4",
+          "port": 4100,
+          "protocol": 3
+        },
+        "flow_tag": 1234
+      }
+    ],
+    "private_api": "(binary-data)",
+    "prometheus_metrics": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5084:69ff:fe4a:9ee4",
+        "port": 9090,
+        "protocol": 1
+      }
+    ],
+    "prometheus_metrics_http": {
+      "ip_addr": "2a00:fb01:400:42:5084:69ff:fe4a:9ee4",
+      "port": 9090,
+      "protocol": 1
+    },
+    "public_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5084:69ff:fe4a:9ee4",
+        "port": 8080,
+        "protocol": 1
+      }
+    ],
+    "xnet": {
+      "ip_addr": "2a00:fb01:400:42:5084:69ff:fe4a:9ee4",
+      "port": 2497,
+      "protocol": 1
+    },
+    "xnet_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5084:69ff:fe4a:9ee4",
+        "port": 2497,
+        "protocol": 1
+      }
+    ]
+  },
+  "node_record_hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae": {
+    "http": {
+      "ip_addr": "2a00:fb01:400:42:50a7:40ff:fe16:ce5f",
+      "port": 8080,
+      "protocol": 1
+    },
+    "node_operator_id": "(binary-data)",
+    "p2p_flow_endpoints": [
+      {
+        "endpoint": {
+          "ip_addr": "2a00:fb01:400:42:50a7:40ff:fe16:ce5f",
+          "port": 4100,
+          "protocol": 3
+        },
+        "flow_tag": 1234
+      }
+    ],
+    "private_api": "(binary-data)",
+    "prometheus_metrics": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50a7:40ff:fe16:ce5f",
+        "port": 9090,
+        "protocol": 1
+      }
+    ],
+    "prometheus_metrics_http": {
+      "ip_addr": "2a00:fb01:400:42:50a7:40ff:fe16:ce5f",
+      "port": 9090,
+      "protocol": 1
+    },
+    "public_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50a7:40ff:fe16:ce5f",
+        "port": 8080,
+        "protocol": 1
+      }
+    ],
+    "xnet": {
+      "ip_addr": "2a00:fb01:400:42:50a7:40ff:fe16:ce5f",
+      "port": 2497,
+      "protocol": 1
+    },
+    "xnet_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50a7:40ff:fe16:ce5f",
+        "port": 2497,
+        "protocol": 1
+      }
+    ]
+  },
+  "node_record_n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe": {
+    "http": {
+      "ip_addr": "2a00:fb01:400:42:50c4:d2ff:feab:7da1",
+      "port": 8080,
+      "protocol": 1
+    },
+    "node_operator_id": "(binary-data)",
+    "p2p_flow_endpoints": [
+      {
+        "endpoint": {
+          "ip_addr": "2a00:fb01:400:42:50c4:d2ff:feab:7da1",
+          "port": 4100,
+          "protocol": 3
+        },
+        "flow_tag": 1234
+      }
+    ],
+    "private_api": "(binary-data)",
+    "prometheus_metrics": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50c4:d2ff:feab:7da1",
+        "port": 9090,
+        "protocol": 1
+      }
+    ],
+    "prometheus_metrics_http": {
+      "ip_addr": "2a00:fb01:400:42:50c4:d2ff:feab:7da1",
+      "port": 9090,
+      "protocol": 1
+    },
+    "public_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50c4:d2ff:feab:7da1",
+        "port": 8080,
+        "protocol": 1
+      }
+    ],
+    "xnet": {
+      "ip_addr": "2a00:fb01:400:42:50c4:d2ff:feab:7da1",
+      "port": 2497,
+      "protocol": 1
+    },
+    "xnet_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50c4:d2ff:feab:7da1",
+        "port": 2497,
+        "protocol": 1
+      }
+    ]
+  },
+  "node_record_rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe": {
+    "http": {
+      "ip_addr": "2a00:fb01:400:42:50d9:9eff:fec3:5d08",
+      "port": 8080,
+      "protocol": 1
+    },
+    "node_operator_id": "(binary-data)",
+    "p2p_flow_endpoints": [
+      {
+        "endpoint": {
+          "ip_addr": "2a00:fb01:400:42:50d9:9eff:fec3:5d08",
+          "port": 4100,
+          "protocol": 3
+        },
+        "flow_tag": 1234
+      }
+    ],
+    "private_api": "(binary-data)",
+    "prometheus_metrics": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50d9:9eff:fec3:5d08",
+        "port": 9090,
+        "protocol": 1
+      }
+    ],
+    "prometheus_metrics_http": {
+      "ip_addr": "2a00:fb01:400:42:50d9:9eff:fec3:5d08",
+      "port": 9090,
+      "protocol": 1
+    },
+    "public_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50d9:9eff:fec3:5d08",
+        "port": 8080,
+        "protocol": 1
+      }
+    ],
+    "xnet": {
+      "ip_addr": "2a00:fb01:400:42:50d9:9eff:fec3:5d08",
+      "port": 2497,
+      "protocol": 1
+    },
+    "xnet_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:50d9:9eff:fec3:5d08",
+        "port": 2497,
+        "protocol": 1
+      }
+    ]
+  },
+  "node_record_y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe": {
+    "http": {
+      "ip_addr": "2a00:fb01:400:42:5004:8fff:fef6:2ad4",
+      "port": 8080,
+      "protocol": 1
+    },
+    "node_operator_id": "(binary-data)",
+    "p2p_flow_endpoints": [
+      {
+        "endpoint": {
+          "ip_addr": "2a00:fb01:400:42:5004:8fff:fef6:2ad4",
+          "port": 4100,
+          "protocol": 3
+        },
+        "flow_tag": 1234
+      }
+    ],
+    "private_api": "(binary-data)",
+    "prometheus_metrics": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5004:8fff:fef6:2ad4",
+        "port": 9090,
+        "protocol": 1
+      }
+    ],
+    "prometheus_metrics_http": {
+      "ip_addr": "2a00:fb01:400:42:5004:8fff:fef6:2ad4",
+      "port": 9090,
+      "protocol": 1
+    },
+    "public_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5004:8fff:fef6:2ad4",
+        "port": 8080,
+        "protocol": 1
+      }
+    ],
+    "xnet": {
+      "ip_addr": "2a00:fb01:400:42:5004:8fff:fef6:2ad4",
+      "port": 2497,
+      "protocol": 1
+    },
+    "xnet_api": [
+      {
+        "ip_addr": "2a00:fb01:400:42:5004:8fff:fef6:2ad4",
+        "port": 2497,
+        "protocol": 1
+      }
+    ]
+  },
+  "provisional_whitelist": {
+    "list_type": 1,
+    "set": "(binary-data)"
+  },
+  "replica_version_7204d5d88aebd0f839eb2f1fe66f1bc9378fadf5": {
+    "release_package_sha256_hex": "62be9e67db498c48a4aa9e4e7c010cf8f7421e57ff170cf4e34edd1aaf3f939b",
+    "release_package_url": "http://download.proxy-global.dfinity.network:8080/ic/7204d5d88aebd0f839eb2f1fe66f1bc9378fadf5/guest-os/update-img-dev/update-img.tar.zst"
+  },
+  "routing_table": {
+    "entries": [
+      {
+        "range": {
+          "end_canister_id": {
+            "principal_id": {
+              "raw": "(principal-id)n5n4y-3aaaa-aaaaa-p777q-cai"
+            }
+          },
+          "start_canister_id": {
+            "principal_id": {
+              "raw": "(principal-id)rwlgt-iiaaa-aaaaa-aaaaa-cai"
+            }
+          }
+        },
+        "subnet_id": {
+          "principal_id": {
+            "raw": "(principal-id)jglbu-nv2vj-bnf7c-jpq3b-6ziw4-vy7wt-xj5m5-plsyr-lopwk-k7lec-eqe"
+          }
+        }
+      },
+      {
+        "range": {
+          "end_canister_id": {
+            "principal_id": {
+              "raw": "(principal-id)b65vx-3qaaa-aaaaa-7777q-cai"
+            }
+          },
+          "start_canister_id": {
+            "principal_id": {
+              "raw": "(principal-id)5v3p4-iyaaa-aaaaa-qaaaa-cai"
+            }
+          }
+        },
+        "subnet_id": {
+          "principal_id": {
+            "raw": "(principal-id)ruhoe-majmh-ec6w7-v6vo3-lrvox-ycveh-wxhbd-ue54n-irsvq-r4pzi-wae"
+          }
+        }
+      }
+    ]
+  },
+  "subnet_list": {
+    "subnets": [
+      "(principal-id)jglbu-nv2vj-bnf7c-jpq3b-6ziw4-vy7wt-xj5m5-plsyr-lopwk-k7lec-eqe",
+      "(principal-id)ruhoe-majmh-ec6w7-v6vo3-lrvox-ycveh-wxhbd-ue54n-irsvq-r4pzi-wae"
+    ]
+  },
+  "subnet_record_jglbu-nv2vj-bnf7c-jpq3b-6ziw4-vy7wt-xj5m5-plsyr-lopwk-k7lec-eqe": {
+    "dkg_dealings_per_block": 1,
+    "dkg_interval_length": 199,
+    "ecdsa_config": null,
+    "features": {
+      "bitcoin": null,
+      "bitcoin_testnet_feature": null,
+      "canister_sandboxing": false,
+      "http_requests": false
+    },
+    "gossip_config": {
+      "advert_config": {
+        "best_effort_percentage": 20
+      },
+      "max_artifact_streams_per_peer": 20,
+      "max_chunk_size": 4096,
+      "max_chunk_wait_ms": 15000,
+      "max_duplicity": 1,
+      "pfn_evaluation_period_ms": 1000,
+      "receive_check_cache_size": 5000,
+      "registry_poll_period_ms": 3000,
+      "retransmission_request_ms": 60000
+    },
+    "initial_notary_delay_millis": 1000,
+    "is_halted": false,
+    "max_block_payload_size": 4194304,
+    "max_ingress_bytes_per_message": 3670016,
+    "max_ingress_messages_per_block": 1000,
+    "max_instructions_per_install_code": 1000000000000,
+    "max_instructions_per_message": 50000000000,
+    "max_instructions_per_round": 70000000000,
+    "max_number_of_canisters": 0,
+    "membership": [
+      "(principal-id)dq3ry-2dnpi-3xsl7-yff3z-2xmip-gnq2a-pfrdx-rkbwn-tt6m3-pxztk-xqe",
+      "(principal-id)rv7cx-m2fiv-vyvje-h4sdb-czlvk-rs3pq-kqw6z-pldpr-cg7ou-ssugc-uqe",
+      "(principal-id)n2cch-ihsfp-miieh-27um4-br7y2-prash-efu6l-kuhfj-srof7-5urfn-zqe",
+      "(principal-id)6ydqr-zgx24-tkjec-ukl3x-rngzl-55oj4-vjudd-zcvlz-vapk7-r5h6m-gqe"
+    ],
+    "replica_version_id": "7204d5d88aebd0f839eb2f1fe66f1bc9378fadf5",
+    "ssh_backup_access": "(binary-data)",
+    "ssh_readonly_access": "(binary-data)",
+    "start_as_nns": false,
+    "subnet_type": 2,
+    "unit_delay_millis": 3000
+  },
+  "subnet_record_ruhoe-majmh-ec6w7-v6vo3-lrvox-ycveh-wxhbd-ue54n-irsvq-r4pzi-wae": {
+    "dkg_dealings_per_block": 1,
+    "dkg_interval_length": 499,
+    "ecdsa_config": null,
+    "features": {
+      "bitcoin": null,
+      "bitcoin_testnet_feature": null,
+      "canister_sandboxing": false,
+      "http_requests": false
+    },
+    "gossip_config": {
+      "advert_config": {
+        "best_effort_percentage": 20
+      },
+      "max_artifact_streams_per_peer": 20,
+      "max_chunk_size": 4096,
+      "max_chunk_wait_ms": 15000,
+      "max_duplicity": 1,
+      "pfn_evaluation_period_ms": 1000,
+      "receive_check_cache_size": 5000,
+      "registry_poll_period_ms": 3000,
+      "retransmission_request_ms": 60000
+    },
+    "initial_notary_delay_millis": 600,
+    "is_halted": false,
+    "max_block_payload_size": 4194304,
+    "max_ingress_bytes_per_message": 2097152,
+    "max_ingress_messages_per_block": 1000,
+    "max_instructions_per_install_code": 200000000000,
+    "max_instructions_per_message": 5000000000,
+    "max_instructions_per_round": 7000000000,
+    "max_number_of_canisters": 0,
+    "membership": [
+      "(principal-id)al2i2-3ayqh-di3lp-4x3dt-zoor5-dj2by-ar5kh-2y447-7dlz7-67vvz-tae",
+      "(principal-id)y75bs-n7tvo-cnghf-gwxcb-fteim-pll5m-o7x3p-67lcz-eefub-266b2-pqe",
+      "(principal-id)czrkm-tktvm-f4nlp-6rvwq-v75yv-yhyjx-suvbz-3eeof-gh3s7-j7z4k-tae",
+      "(principal-id)hw3tt-gwo23-7jz3n-ebiwz-36udd-oxxx7-4qxnq-vkltn-ghnij-nk2cr-yae"
+    ],
+    "replica_version_id": "7204d5d88aebd0f839eb2f1fe66f1bc9378fadf5",
+    "ssh_backup_access": "(binary-data)",
+    "ssh_readonly_access": "(binary-data)",
+    "start_as_nns": false,
+    "subnet_type": 1,
+    "unit_delay_millis": 1000
+  },
+  "unassigned_nodes_config": "(binary-data|sha256)3A1646ACE9789883CB4BCBF9548CC7C7598DE81162C1F20B9409704C964B723D"
+}
