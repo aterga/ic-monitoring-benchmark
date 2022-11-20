@@ -13,14 +13,15 @@ paper, the raw log files that were used in the evaluation, and all tools
 necessary to replicate the experimental results, specifically those reported in
 Table 2 and Figure 5 in the paper.
 
-This file contains three parts: 
-1. overview of the artifact files
-2. instructions for setting up the experiments
-3. instructions for replicating the experiments
+The remainder of this file is organized as follows:
+
+1. overview of the [artifact files](#Overview)
+2. instructions for [setting up the experiments](#Setup)
+3. instructions for [replicating the experiments](#Replication)
 
 
-Overview of the Artifact Files
-------------------------------
+<a name="Overview"></a> Overview of the Artifact Files
+------------------------------------------------------
 
 The archive `ic-monitoring-benchmark.tar` contains a ready-to-use docker image
 with all tools and dependencies preinstalled. See the section on replication
@@ -107,8 +108,8 @@ Joshua Schneider, Dmitriy Traytel. TACAS 2022: 236-253
 <https://doi.org/10.1007/978-3-030-99527-0_13>).
 
 
-Setting up the Experiments
---------------------------
+<a name="Setup"></a> Setting up the Experiments
+-----------------------------------------------
 
 Our artifact is shipped as a Docker image; we therefore assume that the user has Docker installed on their host system.
 
@@ -153,8 +154,7 @@ sections must be issued in this session**. You can leave the container with
 `exit`.
 
 
-Setup validation
-----------------
+### Setup validation
 
 Please follow steps A-C below to validate that the artifact is set up correctly.
 
@@ -164,9 +164,7 @@ execute, but the data produced by running these validation steps do not
 represent our paper's results. For replicating the actual paper experiments,
 please follow the instructions _after_ this section.
 
-----
-
-### A. Validating the **online** monitoring benchmark
+#### A. Validating the **online** monitoring benchmark
 
 Run the following commands to validate the online monitoring experiment (for our
 simplest policy, `clean_logs`) based on (a small prefix of) the production logs.
@@ -179,9 +177,7 @@ The expected output graphic in `data/online/latency.png` should look like this:
 
 ![Sample latency graph for the online monitoring experiment](./docs/latency.png "Sample latency graph for the online monitoring experiment")
 
-----
-
-### B. Validating the offline monitoring benchmark (based on **system test logs**)
+#### B. Validating the offline monitoring benchmark (based on **system test logs**)
 
 Run the following commands to validate the offline monitoring experiment based
 on (a small subset of) the system test logs. 
@@ -218,9 +214,7 @@ The `nan` values above are _expected_ (since only a small subset of tests were
 invoked for validating the artifact setup). The measured times and memory usages
 might be slightly different due to variations in the environment.
 
-----
-
-### C. Validating the offline monitoring benchmark (based on **production logs**)
+#### C. Validating the offline monitoring benchmark (based on **production logs**)
 
 Run the following commands to validate the offline monitoring experiment (for
 our simplest policy, `clean_logs`) based on (a small prefix of) the production
@@ -250,11 +244,32 @@ clean_logs                |  nan (   nan)  nan ( nan) | 0.36 (   0.4)   11 (  11
 Again, the `nan` values in the above table are _expected_ and the numbers might
 be slightly different.
 
-----
+<a name="Replication"></a> Replicating the experiments
+------------------------------------------------------
 
+### Replicating a representative subset of experiments
 
-Replicating the experiments
----------------------------
+It is possible to customize the policies being monitored by providing them as
+arguments to the above scripts invocations. Unlike in the "setup validation"
+instructions, this results in measurements that are comparable to those obtained
+from the full benchmark; the only difference is that some measurements are
+missing.
+
+We recommend the following:
+
+    rm -fr data/offline/  # clean up
+    ./experiments/entrypoints/offline-monitoring-system-tests.sh clean_logs reboot_count
+    ./experiments/entrypoints/offline-monitoring-production.sh clean_logs reboot_count
+
+    rm -fr data/online/   # clean up
+    ./experiments/entrypoints/prepare.sh
+    ./experiments/entrypoints/online-monitoring.sh clean_logs
+
+These only monitor the `clean_logs` (offline and online) and `reboot_count`
+(offline) policies. It is again possible to run only a subset of the three
+experiment groups.
+
+### Replication the full set of experiments from the paper
 
 WARNING: Running all experiments will take roughly ??? hours as the experiments
 are not parallelized. We recommend a faster subset in the next section. You
@@ -292,32 +307,3 @@ Note that these files are also accessible from outside of the container, thanks
 to the mounted volume.
 
 
-Monitoring a subset of policies
--------------------------------
-
-It is possible to customize the policies being monitored by providing them as
-arguments to the above scripts invocations. Unlike in the "setup validation"
-instructions, this results in measurements that are comparable to those obtained
-from the full benchmark; the only difference is that some measurements are
-missing.
-
-We recommend the following:
-
-    rm -fr data/offline/  # clean up
-    ./experiments/entrypoints/offline-monitoring-system-tests.sh clean_logs reboot_count
-    ./experiments/entrypoints/offline-monitoring-production.sh clean_logs reboot_count
-
-    rm -fr data/online/   # clean up
-    ./experiments/entrypoints/prepare.sh
-    ./experiments/entrypoints/online-monitoring.sh clean_logs
-
-These only monitor the `clean_logs` (offline and online) and `reboot_count`
-(offline) policies. It is again possible to run only a subset of the three
-experiment groups. The expected running times are
-
-| Group                       | Time (full experiments) | Time (reduced set)
-| ----------------------------|-------------------------|--------------------
-| offline system tests        | 6h (???)                | 30m
-| offline production          | 11h so far              | 2h
-| online production (prepare) | 2 hours                 | 2h
-| online production (monitor) | 8 hours                 | 3h
