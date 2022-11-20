@@ -10,6 +10,8 @@ from typing import Iterable
 from typing import Optional
 from typing import TypedDict
 
+from policy-monitoring.pipeline import global_infra
+
 from monpoly.monpoly import Monpoly
 from pipeline.alert import AlertService
 from pipeline.alert import DummyAlertService
@@ -31,6 +33,18 @@ DEFAULT_MAINNET_ES_ENDPOINT = "elasticsearch.mercury.dfinity.systems"
 DEFAULT_TESTNET_ES_ENDPOINT = "elasticsearch-v4.testnet.dfinity.systems"
 
 LARGE_LOG_THRESHOLD = 1_073_741_824  # 1 GiB
+
+
+def get_global_infra_from_file(gi_path_str: str) -> GlobalInfra:
+    gi_path = Path(gi_path_str)
+    suf = gi_path.suffix
+    if suf in [".yml", ".yaml"]:
+        res_infra_obj = GlobalInfra.fromYamlFile(gi_path)
+    elif suf == ".json":
+        res_infra_obj = GlobalInfra.fromIcRegeditSnapshotFile(gi_path)
+    else:
+        raise Exception(f"unsupported file format: {suf}")
+    return res_infra_obj
 
 
 def main():
@@ -382,6 +396,12 @@ def main():
                         if raw_log_file.is_file() and raw_log_file.suffixes == [".raw", ".log"]
                     ]
                 }
+                json_files = set(f.name for f in raw_logs.iterdir() if f.is_file() and f.suffixes == [".json"])
+                for group in groups.values():
+                    global_infra_path = f"{group.name}--initial_registry_snapshot.json"
+                    if global_infra_path in json_files:
+                        group.global_infra = get_global_infra_from_file(raw_logs.join(global_infra_path))
+
                 assert len(groups) > 0, f"no .raw.log files found at {args.read}"
                 print(f"Created {len(groups)} groups from logs in {args.read}")
             else:
@@ -457,14 +477,7 @@ def main():
         if args.global_infra:
             # Load global infra from file (same for all groups)
             print(f"Setting global infra for all groups based on {args.global_infra}")
-            gi_path = Path(args.global_infra)
-            suf = gi_path.suffix
-            if suf in [".yml", ".yaml"]:
-                infra = GlobalInfra.fromYamlFile(gi_path)
-            elif suf == ".json":
-                infra = GlobalInfra.fromIcRegeditSnapshotFile(gi_path)
-            else:
-                raise Exception(f"unsupported file format: {suf}")
+            infra = get_global_infra_from_file(args.global_infra)
             for group in groups.values():
                 group.global_infra = infra
         elif UniversalPreProcessor.is_global_infra_required(formulas_for_preproc):
