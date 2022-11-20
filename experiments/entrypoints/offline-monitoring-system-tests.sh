@@ -29,7 +29,7 @@ do
         --artifacts "../$OUTPUT_PREFIX" \
         --formulas_for_preproc "${POLICIES[@]}" \
         --policy "$pol" \
-        --hard_timeout_seconds 14400
+        --hard_timeout_seconds 1800
 done
 
 python3 ./experiments/make_table.py "$INPUT_DIR" > ./data/offline/results.txt
