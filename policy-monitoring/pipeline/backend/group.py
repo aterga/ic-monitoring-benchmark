@@ -103,14 +103,7 @@ class Group:
     @classmethod
     def _LoadFromFile(Self, log_file: Path) -> "Group":
         """Create group and load logs from file"""
-        eprint(f"Loading logs from {log_file} ...")
-        with open(log_file, "r") as input_file:
-            all_doc_reprs = eval(input_file.read())
-            logs = [EsDoc(repr) for repr in all_doc_reprs]
-        eprint(f"Done loading logs from {log_file}.")
-        # Example file name: "boundary_nodes_pre_master__boundary_nodes_pot-2784039865--0.raw.log"
-        components = log_file.stem.split("--")
-        return Group(name=components[0], logs=logs, generation=len(components) - 1)
+        return Self._StreamFromFile(log_file)
 
     @classmethod
     def fromFile(Self, log_file: Path, as_stream=True) -> "Group":
