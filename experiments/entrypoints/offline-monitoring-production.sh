@@ -35,4 +35,4 @@ do
         --hard_timeout_seconds 14400
 done
 
-python3 ./experiments/make_table.py > ./data/offline/results.txt
+python3 ./experiments/make_table.py "$INPUT_LOG" > ./data/offline/results.txt

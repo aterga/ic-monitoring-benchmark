@@ -11,6 +11,7 @@ import os.path
 import re
 import sys
 import yaml
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -19,6 +20,15 @@ sys.path.append('policy-monitoring')
 import util.yaml  # required for parsing custom data types in the yaml files
 
 BASEDIR = './data'
+
+if len(sys.argv) < 2:
+    INPUTS_DIR = BASEDIR
+else:
+    arg_value = Path(sys.argv[1])
+    if arg_value.is_dir():
+        INPUTS_DIR = str(arg_value)
+    else:
+        INPUTS_DIR = str(arg_value.parent)
 
 
 log_stats_cache = {}
@@ -33,7 +43,7 @@ def get_log_stats(name):
         return log_stats_cache[name]
 
     # Raw log
-    found = glob.glob(BASEDIR + '/**/' + name + '.raw.log', recursive=True)
+    found = glob.glob(INPUTS_DIR + '/**/' + name + '.raw.log', recursive=True)
     if len(found) >= 1:
         filename = found[0]
         if len(found) > 1:
