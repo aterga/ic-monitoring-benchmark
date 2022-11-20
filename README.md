@@ -1,5 +1,5 @@
-Monitoring the Internet Computer
-================================
+Monitoring the Internet Computer (Evaluation Artifact)
+======================================================
 
 Synopsis
 --------
@@ -76,6 +76,9 @@ Summary of the remaining files:
   - `requirements.txt`: Python dependencies, including those of the monitoring
     pipeline.
 
+- `test-inputs`: Log files to quickly test the experiment scripts, as explained
+  below.
+
 - `Dockerfile`: For building the docker image.
 
 
@@ -98,10 +101,10 @@ Joshua Schneider, Dmitriy Traytel. TACAS 2022: 236-253
 <https://doi.org/10.1007/978-3-030-99527-0_13>).
 
 
-Replication
------------
+Setup
+-----
 
-# Prerequisites
+### Prerequisites
 
 Minimal requirements:
 
@@ -115,69 +118,182 @@ The authors originally performed the experiments on a server with two 3 GHz
 ### Preparation
 
 Ensure that you have a copy of all artifact files on a local disk. The command
-lines (indicated by the leading '$' sign, which is not part of the command) in
-the following instructions should be executed in a bash shell, whose current
-working directory contains the artifact files. It must be writable, as the
-output of various programs is stored within the `data` subfolder. If you do not
-use bash, you might need to adjust the commands.
+lines in the following instructions should be executed in a bash shell, whose
+current working directory contains the artifact files. It must be writable, as
+the output of various programs is stored within the `data` subfolder. If you do
+not use bash, you might need to adjust the commands.
 
 Run the command
 
-    $ docker load -i ic-monitoring-benchmark.tar
+    docker load -i ic-monitoring-benchmark.tar
 
 to import the docker image. Then execute
 
-    $ docker run -itv `pwd`:/work ic-monitoring-benchmark
+    docker run -itv `pwd`:/work ic-monitoring-benchmark
 
 to start the container, mounting the current working directory. You are now in
-a bash session running in the container. The following commands must be issued
-in this session; we prefix them with `#`. You can leave the container with
+a bash session running in the container. **All commands in the following
+sections must be issued in this session**. You can leave the container with
 `exit`.
 
-### Running the experiments
+
+Setup validation
+----------------
+
+Please follow steps A-C below to validate that the artifact is set up correctly.
+
+**Note:** the instructions in this section are intended for validating that this
+artifact is _functional_. The validation steps will take a short time to
+execute, but the data produced by running these validation steps do not
+represent our paper's results. For replicating the actual paper experiments,
+please follow the instructions _after_ this section.
+
+----
+
+### A. Validating the **online** monitoring benchmark
+
+Run the following commands to validate the online monitoring experiment (for our
+simplest policy, `clean_logs`) based on (a small prefix of) the production logs.
+
+    rm -fr data/online/
+    ./experiments/entrypoints/prepare.sh -l ./test-inputs/production/mainnet-3h-filtered-top100.raw.log
+    ./experiments/entrypoints/online-monitoring.sh clean_logs
+
+The expected output graphic in `data/online/latency.png` should look like this:
+
+![Sample latency graph for the online monitoring experiment](./docs/latency.png "Sample latency graph for the online monitoring experiment")
+
+----
+
+### B. Validating the offline monitoring benchmark (based on **system test logs**)
+
+Run the following commands to validate the offline monitoring experiment based
+on (a small subset of) the system test logs. 
+
+    rm -fr data/offline/
+    ./experiments/entrypoints/offline-monitoring-system-tests.sh -l ./test-inputs/system-tests
+    cat data/offline/results.txt
+
+Expected outcome:
+
+```
+---------------------------------------------------------------------------------
+Measurement               | Testing                   | Prod                     
+---------------------------------------------------------------------------------
+Raw log entries           |     1900    (   13851   ) |      nan    (     nan   )
+Raw log size              |        2.8  (      26.3 ) |        nan  (       nan )
+Processed events          |       19    (    1394   ) |      nan    (     nan   )
+Processed events/s        |       10.2  (      28.7 ) |        nan  (       nan )
+Processed log size        |        0.0  (       0.5 ) |        nan  (       nan )
+Preprocessor time         |        0.07 (       0.11) |         nan (        nan)
+---------------------------------------------------------------------------------
+clean_logs                | 18.28 (  26.6)    9 (  10) |  nan (   nan)  nan ( nan)
+logging_behavior__exe     | 18.03 (  24.3)   10 (  12) |  nan (   nan)  nan ( nan)
+unauthorized_connections  | 18.17 (  25.6)    9 (  11) |  nan (   nan)  nan ( nan)
+reboot_count              | 18.16 (  24.9)    9 (  10) |  nan (   nan)  nan ( nan)
+finalization_consistency  | 17.48 (  24.7)    9 (  10) |  nan (   nan)  nan ( nan)
+finalized_height          | 17.74 (  24.8)   10 (  10) |  nan (   nan)  nan ( nan)
+replica_divergence        | 17.60 (  24.4)    9 (  10) |  nan (   nan)  nan ( nan)
+block_validation_latency  | 17.47 (  25.3)   10 (  15) |  nan (   nan)  nan ( nan)
+---------------------------------------------------------------------------------
+```
+
+The `nan` values above are _expected_ (since only a small subset of tests were 
+invoked for validating the artifact setup). The measured times and memory usages
+might be slightly different due to variations in the environment.
+
+----
+
+### C. Validating the offline monitoring benchmark (based on **production logs**)
+
+Run the following commands to validate the offline monitoring experiment (for
+our simplest policy, `clean_logs`) based on (a small prefix of) the production
+logs. 
+
+    rm -fr data/offline/
+    ./experiments/entrypoints/offline-monitoring-production.sh -l ./test-inputs/production/mainnet-3h-filtered-top100.raw.log
+    cat data/offline/results.txt
+
+Expected outcome:
+
+```
+---------------------------------------------------------------------------------
+Measurement               | Testing                   | Prod                     
+---------------------------------------------------------------------------------
+Raw log entries           |      nan    (     nan   ) |      100    (     100   )
+Raw log size              |        nan  (       nan ) |        0.4  (       0.4 )
+Processed events          |      nan    (     nan   ) |     1323    (    1323   )
+Processed events/s        |        nan  (       nan ) |    52920.0  (   52920.0 )
+Processed log size        |        nan  (       nan ) |        0.2  (       0.2 )
+Preprocessor time         |         nan (        nan) |        4.30 (       4.30)
+---------------------------------------------------------------------------------
+clean_logs                |  nan (   nan)  nan ( nan) | 0.36 (   0.4)   11 (  11)
+---------------------------------------------------------------------------------
+```
+
+Again, the `nan` values in the above table are _expected_ and the numbers might
+be slightly different.
+
+----
+
+
+Replicating the experiments
+---------------------------
 
 WARNING: Running all experiments will take roughly ??? hours as the experiments
 are not parallelized. We recommend a faster subset in the next section. You
 should read this section nonetheless as it explains the individual scripts.
+
+Before proceeding, any output produced by the setup validation steps should be
+deleted using
+
+    rm -fr data/offline/
+    rm -fr data/online/
 
 There are three groups of experiments: offline monitoring of the system tests,
 offline monitoring of the production log, and online monitoring of the
 production log. The offline monitoring experiments can be started with the
 commands
 
-    # ./experiments/entrypoints/offline-monitoring-system-tests.sh
-    # ./experiments/entrypoints/offline-monitoring-production.sh
+    ./experiments/entrypoints/offline-monitoring-system-tests.sh
+    ./experiments/entrypoints/offline-monitoring-production.sh
 
-respectively. After completion, the obtained data can be summarized with
+respectively. For online monitoring, it is first necessary to run
 
-    # python3 ./experiments/make_table.py > ./data/offline/results.txt
-
-For online monitoring, it is first necessary to run
-
-    # ./experiments/entrypoints/prepare.sh
+    ./experiments/entrypoints/prepare.sh
 
 which performs some mandatory preparatory steps (converting and analyzing the
 production log in advance for the online experiments). This takes approximately
 2 hours. The experiment itself is started with
 
-    # ./experiments/entrypoints/online-monitoring.sh
+    ./experiments/entrypoints/online-monitoring.sh
 
-and the plot can be generated with
+Once the scripts have concluded, the results corresponding to Table 2 can be
+found in `data/offline/results.txt`. The units are the same as in the paper. The
+plot for Figure 5 is always exported to `data/online/latency.png`.
 
-    # python3 ./experiments/make_plot.py
+Note that these files are also accessible from outside of the container, thanks
+to the mounted volume.
 
-### Monitoring a subset of policies
+
+Monitoring a subset of policies
+-------------------------------
 
 It is possible to customize the policies being monitored by providing them as
-arguments to the above scripts invocations. We recommend the following:
+arguments to the above scripts invocations. Unlike in the "setup validation"
+instructions, this results in measurements that are comparable to those obtained
+from the full benchmark; the only difference is that some measurements are
+missing.
 
-    # ./experiments/entrypoints/offline-monitoring-system-tests.sh clean_logs reboot_count
-    # ./experiments/entrypoints/offline-monitoring-production.sh clean_logs reboot_count
-    # python3 ./experiments/make_table.py > ./data/offline/results-reduced.txt
+We recommend the following:
 
-    # ./experiments/entrypoints/prepare.sh
-    # ./experiments/entrypoints/online-monitoring.sh clean_logs
-    # python3 ./experiments/make_plot.py
+    rm -fr data/offline/  # clean up
+    ./experiments/entrypoints/offline-monitoring-system-tests.sh clean_logs reboot_count
+    ./experiments/entrypoints/offline-monitoring-production.sh clean_logs reboot_count
+
+    rm -fr data/online/   # clean up
+    ./experiments/entrypoints/prepare.sh
+    ./experiments/entrypoints/online-monitoring.sh clean_logs
 
 These only monitor the `clean_logs` (offline and online) and `reboot_count`
 (offline) policies. It is again possible to run only a subset of the three
@@ -189,13 +305,3 @@ experiment groups. The expected running times are
 | offline production          | ??? hours   |
 | online production (prepare) | 2 hours     |
 | online production (monitor) | 3.5 hours   |
-
-### Results
-
-Once the scripts have concluded, the results corresponding to Table 2 can be
-found in `data/offline/results.txt` (or `data/offline/results-reduced.txt` if
-the reduced set was used). The units are the same as in the paper. The plot for
-Figure 5 is always exported to `data/online/latency.png`.
-
-Note that these files are also accessible from outside of the container, thanks
-to the mounted volume.
