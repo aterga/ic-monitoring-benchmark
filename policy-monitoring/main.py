@@ -10,8 +10,6 @@ from typing import Iterable
 from typing import Optional
 from typing import TypedDict
 
-from policy-monitoring.pipeline import global_infra
-
 from monpoly.monpoly import Monpoly
 from pipeline.alert import AlertService
 from pipeline.alert import DummyAlertService
@@ -398,9 +396,10 @@ def main():
                 }
                 json_files = set(f.name for f in raw_logs.iterdir() if f.is_file() and f.suffixes == [".json"])
                 for group in groups.values():
-                    global_infra_path = f"{group.name}--initial_registry_snapshot.json"
+                    original_group_name = group.name.replace("--pseudo", "")
+                    global_infra_path = f"{original_group_name}--initial_registry_snapshot.json"
                     if global_infra_path in json_files:
-                        group.global_infra = get_global_infra_from_file(raw_logs.join(global_infra_path))
+                        group.global_infra = get_global_infra_from_file(raw_logs.joinpath(global_infra_path))
 
                 assert len(groups) > 0, f"no .raw.log files found at {args.read}"
                 print(f"Created {len(groups)} groups from logs in {args.read}")
@@ -492,15 +491,15 @@ def main():
                     )
                 else:
                     # Obtain Global Infra from initial registry snapshot GitLab artifact
-                    assert gitlab is not None, "Need to specify --global_infra or --gitlab_token"
-                    try:
-                        snap_bulb = gitlab.get_registry_snapshot_for_group(group)
-                        group.global_infra = GlobalInfra.fromIcRegeditSnapshotBulb(snap_bulb, source=group.job_url())
-                    except CiException:
-                        print("Falling back to inferring Global Infra from logs ...")
-                        # logs need to be reusable, so we serialize the stream
-                        group.logs = list(group.logs)
-                        group.infer_global_infra()
+                    if gitlab is not None:
+                        try:
+                            snap_bulb = gitlab.get_registry_snapshot_for_group(group)
+                            group.global_infra = GlobalInfra.fromIcRegeditSnapshotBulb(snap_bulb, source=group.job_url())
+                        except CiException:
+                            print("Falling back to inferring Global Infra from logs ...")
+                            # logs need to be reusable, so we serialize the stream
+                            group.logs = list(group.logs)
+                            group.infer_global_infra()
         else:
             print("Skipping Global Infra")
 
