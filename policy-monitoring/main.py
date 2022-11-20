@@ -204,7 +204,7 @@ def main():
         "--stop_at_first_violation",
         "-safv",
         action="store_true",
-        default=True,
+        default=False,
         help="Whether to replay the violations all found policy violations in batch mode after the pipeline finished",
     )
     parser.add_argument(

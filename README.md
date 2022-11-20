@@ -134,45 +134,68 @@ a bash session running in the container. The following commands must be issued
 in this session; we prefix them with `#`. You can leave the container with
 `exit`.
 
-    # ./experiments/entrypoints/prepare.sh
-
-performs some mandatory preparatory steps (converting and analyzing the
-production log in advance for the online experiments). This takes approximately
-??? minutes.
-
 ### Running the experiments
 
-The full set of experiments can be performed with
+WARNING: Running all experiments will take roughly ??? hours as the experiments
+are not parallelized. We recommend a faster subset in the next section. You
+should read this section nonetheless as it explains the individual scripts.
 
-    # ./experiments/entrypoints/full.sh
+There are three groups of experiments: offline monitoring of the system tests,
+offline monitoring of the production log, and online monitoring of the
+production log. The offline monitoring experiments can be started with the
+commands
 
-WARNING: This will take roughly ??? hours as the experiments are not
-parallelized. Therefore, we provide a significantly reduced but much faster set:
+    # ./experiments/entrypoints/offline-monitoring-system-tests.sh
+    # ./experiments/entrypoints/offline-monitoring-production.sh
 
-    # ./experiments/entrypoints/reduced-offline.sh
-    # ./experiments/entrypoints/reduced-online.sh
+respectively. After completion, the obtained data can be summarized with
+
+    # python3 ./experiments/make_table.py > ./data/offline/results.txt
+
+For online monitoring, it is first necessary to run
+
+    # ./experiments/entrypoints/prepare.sh
+
+which performs some mandatory preparatory steps (converting and analyzing the
+production log in advance for the online experiments). This takes approximately
+2 hours. The experiment itself is started with
+
+    # ./experiments/entrypoints/online-monitoring.sh
+
+and the plot can be generated with
+
+    # python3 ./experiments/make_plot.py
+
+### Monitoring a subset of policies
+
+It is possible to customize the policies being monitored by providing them as
+arguments to the above scripts invocations. We recommend the following:
+
+    # ./experiments/entrypoints/offline-monitoring-system-tests.sh clean_logs reboot_count
+    # ./experiments/entrypoints/offline-monitoring-production.sh clean_logs reboot_count
+    # python3 ./experiments/make_table.py > ./data/offline/results-reduced.txt
+
+    # ./experiments/entrypoints/prepare.sh
+    # ./experiments/entrypoints/online-monitoring.sh clean_logs
+    # python3 ./experiments/make_plot.py
 
 These only monitor the `clean_logs` (offline and online) and `reboot_count`
-(offline) policies.
+(offline) policies. It is again possible to run only a subset of the three
+experiment groups. The expected running times are
 
-Moreover, it is possible to customize the policies being monitored by invoking
-the experiments directly as follows.
-
-    # ./experiments/entrypoints/offline-monitoring-system-tests.sh POLICIES...
-    # ./experiments/entrypoints/offline-monitoring-production.sh POLICIES...
-    # ./experiments/entrypoints/online-monitoring.sh POLICIES...
-
-In this case, it is necessary to trigger the summarization manually:
-
-    # python3 ./experiments/make_table.py > ./data/offline/results-custom.txt
-    # python3 ./experiments/make_plot.py
+| Group                       | Time        |
+| ----------------------------|-------------|
+| offline system tests        | ??? minutes |
+| offline production          | ??? hours   |
+| online production (prepare) | 2 hours     |
+| online production (monitor) | 3.5 hours   |
 
 ### Results
 
 Once the scripts have concluded, the results corresponding to Table 2 can be
 found in `data/offline/results.txt` (or `data/offline/results-reduced.txt` if
 the reduced set was used). The units are the same as in the paper. The plot for
-Figure 5 is exported to `data/online/latency.png`.
+Figure 5 is always exported to `data/online/latency.png`.
 
 Note that these files are also accessible from outside of the container, thanks
 to the mounted volume.
