@@ -8,21 +8,21 @@ This artifact accompanies the paper "Monitoring the Internet Computer", which
 will be presented at the 25th International Symposium on Formal Methods
 (FM 2023). It provides the policy formulas described in Section 3.2 of the
 paper, the raw log files that were used in the evaluation, and all tools
-necessary to replicate the experimental results, specifically those reported in
+necessary to reproduce the experimental results, specifically those reported in
 Table 2 and Figure 5 in the paper.
 
 The remainder of this file is organized as follows:
 
 1. Overview of the [artifact files](#Overview)
 2. Instructions for [setting up the experiments](#Setup)
-3. Instructions for [replicating the experiments](#Replication)
+3. Instructions for [reproducing the experiments](#Reproduction)
 
 
 Overview of the Artifact Files <a name="Overview"></a>
 ------------------------------------------------------
 
 The archive `ic-monitoring-benchmark.tar` contains a ready-to-use docker image
-with all tools and dependencies preinstalled. See the section on replication
+with all tools and dependencies preinstalled. See the section on reproduction
 below for instructions.
 
 The docker image does not embed the raw log files because of their size.
@@ -130,7 +130,10 @@ build `baeda1f`), but other OS supporting Docker should also work.
 | Offline production                           | 13                     | 3.5                       |
 | Online production (preparation + monitoring) | 2+8                    | 2+3                       |
 
-Note: offline and online experiments produce outputs in disjoint directories and thus can be started concurrently (assuming that the user's system has enough resources). Therefore, it should be possible to replicate the full experiments within 13 hours, and the reduced set of experiments within 5 hours.
+Note: offline and online experiments produce outputs in disjoint directories and
+thus can be started concurrently (assuming that the user's system has enough
+resources). Therefore, it should be possible to reproduce the full experiments
+within 13 hours, and the reduced set of experiments within 5 hours.
 
 ### Preparation
 
@@ -159,7 +162,7 @@ Please follow steps A-C below to validate that the artifact is set up correctly.
 **Note:** the instructions in this section are intended for validating that this
 artifact is _functional_. The validation steps will take a short time to
 execute, but the data produced by running these validation steps do not
-represent our paper's results. For replicating the actual paper experiments,
+represent our paper's results. For reproducing the actual paper experiments,
 please follow the instructions _after_ this section.
 
 #### A. Validating the offline monitoring benchmark (based on **system test logs**)
@@ -242,12 +245,12 @@ The expected output graphic in `data/online/latency.png` should look like this:
 
 ![Sample latency graph for the online monitoring experiment](./docs/latency.png "Sample latency graph for the online monitoring experiment")
 
-Replicating the paper experiments <a name="Replication"></a>
-------------------------------------------------------
+Reproducing the paper experiments <a name="Reproduction"></a>
+-------------------------------------------------------------
 
 Please make sure to follow the [setup instructions](#Setup) first.
 
-### Replicating a representative subset of experiments
+### Reproducing a representative subset of experiments
 
 The following instructions perform a representative subset of the experiments,
 which requires fewer resources (specifically RAM and time) than the full set.
@@ -284,7 +287,7 @@ Once the last script has finished, the first subplot of Figure 5 in the paper
 can be found in `data/online/latency.png`.
 
 
-### Replication the full set of experiments from the paper
+### Reproducing the full set of experiments from the paper
 
 **Warning:** This requires 180 GiB of RAM and takes more than a day to complete.
 
