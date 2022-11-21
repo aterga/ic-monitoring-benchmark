@@ -269,7 +269,8 @@ and then optionally (requires more time, produces more results)
 Once the last script has finished, a subset of the results corresponding to
 Table 2 in the paper can be found in `data/offline/results.txt`. Specifically,
 the table contains the performance measurements for the `clean_logs` and
-`reboot_count` policies. The units are the same as in the paper.
+`reboot_count` policies. The table's structure and the units are the same as in
+the paper.
 
 #### Online monitoring benchmark
 
@@ -298,6 +299,6 @@ Execute the commands
     ./experiments/entrypoints/online-monitoring.sh
 
 Once the last script has finished, the results corresponding to Table 2 in the
-paper can be found in `data/offline/results.txt`. The units are the same as in
-the paper. The plot corresponding to Figure 5 in the paper can be found in
-`data/online/latency.png`.
+paper can be found in `data/offline/results.txt`. The table's structure and the
+units are the same as in the paper. The plot corresponding to Figure 5 in the
+paper can be found in `data/online/latency.png`.
