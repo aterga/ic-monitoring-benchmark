@@ -180,7 +180,7 @@ Please follow steps A-C below to validate that the artifact is set up correctly.
 artifact is _functional_. The validation steps will take a short time to
 execute, but the data produced by running these validation steps does not
 represent our paper's results. For reproducing the actual paper experiments,
-please follow the instructions _after_ this section.
+please follow the [instructions](#Reproduction) _after_ this section.
 
 #### A. Validating the offline monitoring benchmark (based on **system test logs**)
 
