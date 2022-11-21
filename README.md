@@ -215,9 +215,9 @@ block_validation_latency  | 17.47 (  25.3)   10 (  15) |  nan (   nan)  nan ( na
 ---------------------------------------------------------------------------------
 ```
 
-The `nan` values above are _expected_ (since only a small subset of tests were
-invoked for validating the artifact setup). The measured times and memory usages
-might be slightly different due to variations in the environment.
+The `nan` values above are _expected_ since the production experiments were not
+invoked. The times and memory usages might be slightly different due to
+variations in the environment.
 
 #### B. Validating the offline monitoring benchmark (based on **production logs**)
 
