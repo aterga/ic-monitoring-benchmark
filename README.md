@@ -122,14 +122,14 @@ build `baeda1f`), but other OS supporting Docker should also work.
   of RAM is sufficient for running a reduced set of representative experiments.
 - **Disk space:** At least ca. 80 GB of free disk space, of which ca. 60 GB is
   the (uncompressed) artifact.
-- **Time:** TODO
+- **Time:**
 
 | Experiment group                | Time (full set) | Time (reduced set) |
 | --------------------------------|-----------------|--------------------|
-| Offline system tests            | 6h (???)        | 30m                |
-| Offline production              | 11h so far      | 2h                 |
-| Online production (preparation) | 2 hours         | 2h                 |
-| Online production (monitoring)  | 8 hours         | 3h                 |
+| Offline system tests            | 7 hours         | 1 hour             |
+| Offline production              | 13 hours        | 3.5 hours          |
+| Online production (preparation) | 2 hours         | 2 hours            |
+| Online production (monitoring)  | 8 hours         | 3 hours            |
 
 ### Preparation
 
