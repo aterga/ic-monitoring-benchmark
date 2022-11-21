@@ -160,7 +160,7 @@ within 13 hours, and the reduced set of experiments within 5 hours.
    to start the container, mounting the current working directory. Note that pwd
    must be enclosed in backticks. If the command fails with an error, try
 
-        docker run -itv `pwd`:/work localhost/ic-monitoring-benchmark
+        docker run -itv `pwd`:/work ic-monitoring-benchmark
 
    instead.
 
