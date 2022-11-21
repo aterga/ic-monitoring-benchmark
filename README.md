@@ -119,7 +119,7 @@ build `baeda1f`), but other OS supporting Docker should also work.
   7302 CPUs.
 - **RAM:** 180 GiB (!) for running the full set of experiments. **Note** 8 GiB
   of RAM is sufficient for running a reduced set of representative experiments.
-- **Disk space:** At least ca. 80 GB of free disk space, of which ca. 60 GB is
+- **Disk space:** At least 95 GiB of free disk space, of which ca. 65 GiB is
   the (uncompressed) artifact.
 - **Time:**
 
