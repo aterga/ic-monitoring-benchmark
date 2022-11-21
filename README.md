@@ -90,11 +90,10 @@ ic-monitoring-benchmark`.
 ### Policy formulas
 
 We provide formalizations of all policies described in the paper. There is
-a folder in `src/policy-monitoring/mfotl-policies` for every policy. (The
-`policy-monitoring` subtree also exists in the docker image below `/work`.)
-Each folder contains an MFOTL formula, expressed using MonPoly's concrete
-syntax, as well as satisfying and violating example logs for testsing. The MFOTL
-include comments.
+a folder in `policy-monitoring/mfotl-policies` for every policy. Each folder
+contains an MFOTL formula, expressed using MonPoly's concrete syntax, as well as
+satisfying and violating example logs for testing. The MFOTL files include
+OCaml-style comments that explain the formula in more detail.
 
 Most aspects of the concrete formula syntax are described in the paper *The
 MonPoly Monitoring Tool* (David Basin, Felix Klaedtke, Eugen Zalinescu. RV-CuBES
@@ -130,22 +129,40 @@ build `baeda1f`), but other OS supporting Docker should also work.
 | Offline production                           | 13                     | 3.5                       |
 | Online production (preparation + monitoring) | 2+8                    | 2+3                       |
 
-Note: offline and online experiments produce outputs in disjoint directories and
-thus can be started concurrently (assuming that the user's system has enough
+Note: The offline and online experiments produce outputs in disjoint directories
+and thus can be started concurrently (assuming that the user's system has enough
 resources). Therefore, it should be possible to reproduce the full experiments
 within 13 hours, and the reduced set of experiments within 5 hours.
 
 ### Preparation
 
-1. Download the artifact archive (https://doi.org/10.5281/zenodo.7340850).
-2. Unpack the archive on the system that should run the experiments.
-3. Open a shell and change the working directory to the location that now
-   contains the archive's content. We assume that a Bash shell under Linux is
-   used. If you do not use Bash, you might need to adjust the commands.
-4. Execute the command `docker load -i ic-monitoring-benchmark.tar` to import
+1. Open a shell on the system that should run the experiments and change the
+   working directory to a location that has enough free disk space as indicated
+   above in the requirements. We assume that a Bash shell under Linux is used.
+   If you do not use Bash, you might need to adjust the commands below.
+2. Execute the commands
+
+        mkdir ic-monitoring-benchmark
+        cd ic-monitoring-benchmark
+  
+   to create and change into a new folder that will hold the artifact (the
+   folder must not exist yet).
+3. Download the artifact archive <https://doi.org/10.5281/zenodo.7340850> and
+   put the archive under the name `ic-monitoring-benchmark.zip` into the folder
+   that you have just created.
+4. Unpack the archive using the command `unzip ic-monitoring-benchmark.zip`.
+5. Execute the command `docker load -i ic-monitoring-benchmark.tar` to import
    the docker image.
-5. Execute the command ```docker run -itv `pwd`:/work ic-monitoring-benchmark```
-   to start the container, mounting the current working directory.
+6. Execute the command 
+
+        docker run -itv `pwd`:/work localhost/ic-monitoring-benchmark
+
+   to start the container, mounting the current working directory. Note that pwd
+   must be enclosed in backticks. If the command fails with an error, try
+
+        docker run -itv `pwd`:/work localhost/ic-monitoring-benchmark
+
+   instead.
 
 You are now in a Bash session running in the container. **All commands in the
 following sections must be executed within the container.** You can leave the
