@@ -124,23 +124,24 @@ build `baeda1f`), but other OS supporting Docker should also work.
   the (uncompressed) artifact.
 - **Time:**
 
-| Experiment group                | Time (full set) | Time (reduced set) |
-| --------------------------------|-----------------|--------------------|
-| Offline system tests            | 7 hours         | 1 hour             |
-| Offline production              | 13 hours        | 3.5 hours          |
-| Online production (preparation) | 2 hours         | 2 hours            |
-| Online production (monitoring)  | 8 hours         | 3 hours            |
+| Experiment group                             | Time, hours (full set) | Time, hours (reduced set) |
+| ---------------------------------------------|------------------------|---------------------------|
+| Offline system tests                         | 7                      | 1                         |
+| Offline production                           | 13                     | 3.5                       |
+| Online production (preparation + monitoring) | 2+8                    | 2+3                       |
+
+Note: offline and online experiments produce outputs in disjoint directories and thus can be started concurrently (assuming that the user's system has enough resources). Therefore, it should be possible to replicate the full experiments within 13 hours, and the reduced set of experiments within 5 hours.
 
 ### Preparation
 
-1. Download the artifact archive.
+1. Download the artifact archive (https://doi.org/10.5281/zenodo.7340850).
 2. Unpack the archive on the system that should run the experiments.
 3. Open a shell and change the working directory to the location that now
    contains the archive's content. We assume that a Bash shell under Linux is
    used. If you do not use Bash, you might need to adjust the commands.
 4. Execute the command `docker load -i ic-monitoring-benchmark.tar` to import
    the docker image.
-5. Execute the command `docker run -itv `pwd`:/work ic-monitoring-benchmark`
+5. Execute the command ```docker run -itv `pwd`:/work ic-monitoring-benchmark```
    to start the container, mounting the current working directory.
 
 You are now in a Bash session running in the container. **All commands in the
@@ -161,20 +162,7 @@ execute, but the data produced by running these validation steps do not
 represent our paper's results. For replicating the actual paper experiments,
 please follow the instructions _after_ this section.
 
-#### A. Validating the **online** monitoring benchmark
-
-Run the following commands to validate the online monitoring experiment (for our
-simplest policy, `clean_logs`) based on (a small prefix of) the production logs.
-
-    rm -fr data/online/
-    ./experiments/entrypoints/prepare.sh -l ./test-inputs/production/mainnet-3h-filtered-top100.raw.log
-    ./experiments/entrypoints/online-monitoring.sh clean_logs
-
-The expected output graphic in `data/online/latency.png` should look like this:
-
-![Sample latency graph for the online monitoring experiment](./docs/latency.png "Sample latency graph for the online monitoring experiment")
-
-#### B. Validating the offline monitoring benchmark (based on **system test logs**)
+#### A. Validating the offline monitoring benchmark (based on **system test logs**)
 
 Run the following commands to validate the offline monitoring experiment based
 on (a small subset of) the system test logs.
@@ -211,7 +199,7 @@ The `nan` values above are _expected_ (since only a small subset of tests were
 invoked for validating the artifact setup). The measured times and memory usages
 might be slightly different due to variations in the environment.
 
-#### C. Validating the offline monitoring benchmark (based on **production logs**)
+#### B. Validating the offline monitoring benchmark (based on **production logs**)
 
 Run the following commands to validate the offline monitoring experiment (for
 our simplest policy, `clean_logs`) based on (a small prefix of) the production
@@ -241,8 +229,20 @@ clean_logs                |  nan (   nan)  nan ( nan) | 0.36 (   0.4)   11 (  11
 Again, the `nan` values in the above table are _expected_ and the numbers might
 be slightly different.
 
+#### C. Validating the **online** monitoring benchmark
 
-Replicating the experiments <a name="Replication"></a>
+Run the following commands to validate the online monitoring experiment (for our
+simplest policy, `clean_logs`) based on (a small prefix of) the production logs.
+
+    rm -fr data/online/
+    ./experiments/entrypoints/prepare.sh -l ./test-inputs/production/mainnet-3h-filtered-top100.raw.log
+    ./experiments/entrypoints/online-monitoring.sh clean_logs
+
+The expected output graphic in `data/online/latency.png` should look like this:
+
+![Sample latency graph for the online monitoring experiment](./docs/latency.png "Sample latency graph for the online monitoring experiment")
+
+Replicating the paper experiments <a name="Replication"></a>
 ------------------------------------------------------
 
 Please make sure to follow the [setup instructions](#Setup) first.
