@@ -1,8 +1,6 @@
 Monitoring the Internet Computer (Evaluation Artifact)
 ======================================================
 
-
-
 Synopsis
 --------
 
@@ -15,12 +13,12 @@ Table 2 and Figure 5 in the paper.
 
 The remainder of this file is organized as follows:
 
-1. overview of the [artifact files](#Overview)
-2. instructions for [setting up the experiments](#Setup)
-3. instructions for [replicating the experiments](#Replication)
+1. Overview of the [artifact files](#Overview)
+2. Instructions for [setting up the experiments](#Setup)
+3. Instructions for [replicating the experiments](#Replication)
 
 
-<a name="Overview"></a> Overview of the Artifact Files
+Overview of the Artifact Files <a name="Overview"></a>
 ------------------------------------------------------
 
 The archive `ic-monitoring-benchmark.tar` contains a ready-to-use docker image
@@ -49,7 +47,7 @@ inspection of the artifact, as well as to facilitate reuse and extensions. If
 desired, the image can be rebuilt by running `docker build -t
 ic-monitoring-benchmark`.
 
-### Summary of the remaining files:
+### Summary of the remaining files
 
 - `monpoly/`: Source code (OCaml) of the MonPoly monitoring tool. This is a copy
   of commit f2825be8fa1a0684dd0eb1da8c6f5cd87724d0f2 from
@@ -89,7 +87,6 @@ ic-monitoring-benchmark`.
 
 - `Dockerfile`: For building the docker image.
 
-
 ### Policy formulas
 
 We provide formalizations of all policies described in the paper. There is
@@ -108,51 +105,51 @@ Joshua Schneider, Dmitriy Traytel. TACAS 2022: 236-253
 <https://doi.org/10.1007/978-3-030-99527-0_13>).
 
 
-<a name="Setup"></a> Setting up the Experiments
+Setting up the Experiments <a name="Setup"></a>
 -----------------------------------------------
 
-Our artifact is shipped as a Docker image; we therefore assume that the user has Docker installed on their host system.
+Our artifact is shipped as a Docker image; we therefore assume that the user has
+Docker installed on their host system.
 
-We tested the artifact on a system running Linux 5.4.0 (Docker version 20.10.21, build `baeda1f`), but other OS supporting Docker should also work.
+We tested the artifact on a system running Linux 5.4.0 (Docker version 20.10.21,
+build `baeda1f`), but other OS supporting Docker should also work.
 
 ### System requirements
 
-- **CPU:** We tested the artifact on a server with two 3 GHz 16-core AMD EPYC 7302 CPUs. 
-- **RAM:** 180 GiB for running the full set of experiments. **Note** 8 GiB of RAM is sufficient for running a reduced set of representative experiments.
-- **Disk space:** At least ca. 80 GB of free disk space, of which ca. 60 GB is the (uncompressed) artifact.
+- **CPU:** We tested the artifact on a server with two 3 GHz 16-core AMD EPYC
+  7302 CPUs.
+- **RAM:** 180 GiB (!) for running the full set of experiments. **Note** 8 GiB
+  of RAM is sufficient for running a reduced set of representative experiments.
+- **Disk space:** At least ca. 80 GB of free disk space, of which ca. 60 GB is
+  the (uncompressed) artifact.
 - **Time:** TODO
 
-| Group                       | Time (full experiments) | Time (reduced set)
-| ----------------------------|-------------------------|--------------------
-| offline system tests        | 6h (???)                | 30m
-| offline production          | 11h so far              | 2h
-| online production (prepare) | 2 hours                 | 2h
-| online production (monitor) | 8 hours                 | 3h
+| Experiment group                | Time (full set) | Time (reduced set) |
+| --------------------------------|-----------------|--------------------|
+| Offline system tests            | 6h (???)        | 30m                |
+| Offline production              | 11h so far      | 2h                 |
+| Online production (preparation) | 2 hours         | 2h                 |
+| Online production (monitoring)  | 8 hours         | 3h                 |
 
 ### Preparation
 
-1. Download the artifact archive from Zenodo (TODO: link)
-2. Unpack archive (TODO)
+1. Download the artifact archive.
+2. Unpack the archive on the system that should run the experiments.
+3. Open a shell and change the working directory to the location that now
+   contains the archive's content. We assume that a Bash shell under Linux is
+   used. If you do not use Bash, you might need to adjust the commands.
+4. Execute the command `docker load -i ic-monitoring-benchmark.tar` to import
+   the docker image.
+5. Execute the command `docker run -itv `pwd`:/work ic-monitoring-benchmark`
+   to start the container, mounting the current working directory.
 
-Ensure that you have a copy of all artifact files on your local disk. The command
-lines in the following instructions should be executed in a Bash shell, whose
-current working directory contains the artifact files. It must be writable, as
-the output of various programs is stored within the `data` subfolder. If you do
-not use bash, you might need to adjust the commands.
+You are now in a Bash session running in the container. **All commands in the
+following sections must be executed within the container.** You can leave the
+container shell with `exit`.
 
-Run the command
-
-    docker load -i ic-monitoring-benchmark.tar
-
-to import the docker image. Then execute
-
-    docker run -itv `pwd`:/work ic-monitoring-benchmark
-
-to start the container, mounting the current working directory. You are now in
-a bash session running in the container. **All commands in the following
-sections must be issued in this session**. You can leave the container with
-`exit`.
-
+Note that all files being created are also accessible from outside of the
+container, thanks to the mounted volume. Therefore, they persist when the
+current container is stopped and a new one is started.
 
 ### Setup validation
 
@@ -180,7 +177,7 @@ The expected output graphic in `data/online/latency.png` should look like this:
 #### B. Validating the offline monitoring benchmark (based on **system test logs**)
 
 Run the following commands to validate the offline monitoring experiment based
-on (a small subset of) the system test logs. 
+on (a small subset of) the system test logs.
 
     rm -fr data/offline/
     ./experiments/entrypoints/offline-monitoring-system-tests.sh -l ./test-inputs/system-tests
@@ -210,7 +207,7 @@ block_validation_latency  | 17.47 (  25.3)   10 (  15) |  nan (   nan)  nan ( na
 ---------------------------------------------------------------------------------
 ```
 
-The `nan` values above are _expected_ (since only a small subset of tests were 
+The `nan` values above are _expected_ (since only a small subset of tests were
 invoked for validating the artifact setup). The measured times and memory usages
 might be slightly different due to variations in the environment.
 
@@ -218,7 +215,7 @@ might be slightly different due to variations in the environment.
 
 Run the following commands to validate the offline monitoring experiment (for
 our simplest policy, `clean_logs`) based on (a small prefix of) the production
-logs. 
+logs.
 
     rm -fr data/offline/
     ./experiments/entrypoints/offline-monitoring-production.sh -l ./test-inputs/production/mainnet-3h-filtered-top100.raw.log
@@ -244,66 +241,63 @@ clean_logs                |  nan (   nan)  nan ( nan) | 0.36 (   0.4)   11 (  11
 Again, the `nan` values in the above table are _expected_ and the numbers might
 be slightly different.
 
-<a name="Replication"></a> Replicating the experiments
+
+Replicating the experiments <a name="Replication"></a>
 ------------------------------------------------------
+
+Please make sure to follow the [setup instructions](#Setup) first.
 
 ### Replicating a representative subset of experiments
 
-It is possible to customize the policies being monitored by providing them as
-arguments to the above scripts invocations. Unlike in the "setup validation"
-instructions, this results in measurements that are comparable to those obtained
-from the full benchmark; the only difference is that some measurements are
-missing.
+The following instructions perform a representative subset of the experiments,
+which requires fewer resources (specifically RAM and time) than the full set.
+Unlike in the setup validation instructions, this results in measurements that
+are comparable to those obtained from the full benchmark; the only difference is
+that some measurements are missing.
 
-We recommend the following:
+#### Offline monitoring benchmark
 
-    rm -fr data/offline/  # clean up
+Execute the commands
+
+    rm -fr data/offline/
     ./experiments/entrypoints/offline-monitoring-system-tests.sh clean_logs reboot_count
+
+and then optionally (requires more time, produces more results)
+
     ./experiments/entrypoints/offline-monitoring-production.sh clean_logs reboot_count
 
-    rm -fr data/online/   # clean up
+Once the last script has finished, a subset of the results corresponding to
+Table 2 in the paper can be found in `data/offline/results.txt`. Specifically,
+the table contains the performance measurements for the `clean_logs` and
+`reboot_count` policies. The units are the same as in the paper.
+
+#### Online monitoring benchmark
+
+Execute the commands
+
+    rm -fr data/online/
     ./experiments/entrypoints/prepare.sh
     ./experiments/entrypoints/online-monitoring.sh clean_logs
 
-These only monitor the `clean_logs` (offline and online) and `reboot_count`
-(offline) policies. It is again possible to run only a subset of the three
-experiment groups.
+Once the last script has finished, the first subplot of Figure 5 in the paper
+can be found in `data/online/latency.png`.
+
 
 ### Replication the full set of experiments from the paper
 
-WARNING: Running all experiments will take roughly ??? hours as the experiments
-are not parallelized. We recommend a faster subset in the next section. You
-should read this section nonetheless as it explains the individual scripts.
+**Warning:** This requires 180 GiB of RAM and takes more than a day to complete.
 
-Before proceeding, any output produced by the setup validation steps should be
-deleted using
+Execute the commands
 
     rm -fr data/offline/
-    rm -fr data/online/
-
-There are three groups of experiments: offline monitoring of the system tests,
-offline monitoring of the production log, and online monitoring of the
-production log. The offline monitoring experiments can be started with the
-commands
-
     ./experiments/entrypoints/offline-monitoring-system-tests.sh
     ./experiments/entrypoints/offline-monitoring-production.sh
 
-respectively. For online monitoring, it is first necessary to run
-
+    rm -fr data/online/
     ./experiments/entrypoints/prepare.sh
-
-which performs some mandatory preparatory steps (converting and analyzing the
-production log in advance for the online experiments). This takes approximately
-2 hours. The experiment itself is started with
-
     ./experiments/entrypoints/online-monitoring.sh
 
-Once the scripts have concluded, the results corresponding to Table 2 can be
-found in `data/offline/results.txt`. The units are the same as in the paper. The
-plot for Figure 5 is always exported to `data/online/latency.png`.
-
-Note that these files are also accessible from outside of the container, thanks
-to the mounted volume.
-
-
+Once the last script has finished, the results corresponding to Table 2 in the
+paper can be found in `data/offline/results.txt`. The units are the same as in
+the paper. The plot corresponding to Figure 5 in the paper can be found in
+`data/online/latency.png`.
