@@ -178,7 +178,7 @@ Please follow steps A-C below to validate that the artifact is set up correctly.
 
 **Note:** the instructions in this section are intended for validating that this
 artifact is _functional_. The validation steps will take a short time to
-execute, but the data produced by running these validation steps do not
+execute, but the data produced by running these validation steps does not
 represent our paper's results. For reproducing the actual paper experiments,
 please follow the instructions _after_ this section.
 
@@ -219,6 +219,9 @@ The `nan` values above are _expected_ since the production experiments were not
 invoked. The times and memory usages might be slightly different due to
 variations in the environment.
 
+Recall that the data produced by running this validation step does not represent
+our paper's results.
+
 #### B. Validating the offline monitoring benchmark (based on **production logs**)
 
 Run the following commands to validate the offline monitoring experiment (for
@@ -246,8 +249,8 @@ clean_logs                |  nan (   nan)  nan ( nan) | 0.36 (   0.4)   11 (  11
 ---------------------------------------------------------------------------------
 ```
 
-Again, the `nan` values in the above table are _expected_ and the numbers might
-be slightly different.
+Again, the `nan` values in the above table are _expected_, the numbers might be
+slightly different, and the data does not represent our paper's results.
 
 #### C. Validating the **online** monitoring benchmark
 
@@ -261,6 +264,9 @@ simplest policy, `clean_logs`) based on (a small prefix of) the production logs.
 The expected output graphic in `data/online/latency.png` should look like this:
 
 ![Sample latency graph for the online monitoring experiment](./docs/latency.png "Sample latency graph for the online monitoring experiment")
+
+Recall that this does not represent our paper's results.
+
 
 Reproducing the paper experiments <a name="Reproduction"></a>
 -------------------------------------------------------------
