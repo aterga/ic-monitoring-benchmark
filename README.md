@@ -121,18 +121,24 @@ build `baeda1f`), but other OS supporting Docker should also work.
   of RAM is sufficient for running a reduced set of representative experiments.
 - **Disk space:** At least 95 GiB of free disk space, of which ca. 65 GiB is
   the (uncompressed) artifact.
-- **Time:**
+- **Time:** Approximately 15 minutes for setup. See the table below for the time
+  estimates for each experiment group. The experiment groups are independent and
+  represent different subsets of results in the paper (you may pick a subset of
+  groups for reproduction).
 
-| Experiment group                             | Time, hours (full set) | Time, hours (reduced set) |
-| ---------------------------------------------|------------------------|---------------------------|
-| Offline system tests                         | 7                      | 1                         |
-| Offline production                           | 13                     | 3.5                       |
-| Online production (preparation + monitoring) | 2+8                    | 2+3                       |
+| Experiment group                                             | Time (hours) |
+|--------------------------------------------------------------|--------------|
+| 1a (subset of offline monitoring, system tests only)         | 1            |
+| 1b (subset of offline monitoring, system tests + production) | 4.5          |
+| 2 (subset of online monitoring)                              | 5            |
+| 3 (all offline monitoring experiments)                       | 20           |
+| 4 (all online monitoring experiments)                        | 10           |
 
 Note: The offline and online experiments produce outputs in disjoint directories
 and thus can be started concurrently (assuming that the user's system has enough
-resources). Therefore, it should be possible to reproduce the full experiments
-within 13 hours, and the reduced set of experiments within 5 hours.
+resources). Therefore, it should be possible to reproduce the reduced set
+(groups 1b and 2) within 5 hours and the full experiments (groups 3 and 4)
+within 13 hours.
 
 ### Preparation
 
@@ -144,7 +150,7 @@ within 13 hours, and the reduced set of experiments within 5 hours.
 
         mkdir ic-monitoring-benchmark
         cd ic-monitoring-benchmark
-  
+
    to create and change into a new folder that will hold the artifact (the
    folder must not exist yet).
 3. Download the artifact archive <https://doi.org/10.5281/zenodo.7340850> and
@@ -153,7 +159,7 @@ within 13 hours, and the reduced set of experiments within 5 hours.
 4. Unpack the archive using the command `unzip ic-monitoring-benchmark.zip`.
 5. Execute the command `docker load -i ic-monitoring-benchmark.tar` to import
    the docker image.
-6. Execute the command 
+6. Execute the command
 
         docker run -itv `pwd`:/work localhost/ic-monitoring-benchmark
 
@@ -281,24 +287,30 @@ Unlike in the setup validation instructions, this results in measurements that
 are comparable to those obtained from the full benchmark; the only difference is
 that some measurements are missing.
 
-#### Offline monitoring benchmark
+#### Experiment group 1: Offline monitoring benchmark
 
-Execute the commands
+Either execute the commands (group 1a)
 
     rm -fr data/offline/
     ./experiments/entrypoints/offline-monitoring-system-tests.sh clean_logs reboot_count
 
-and then optionally (requires more time, produces more results)
+**or** the commands (group 1b; requires more time, produces more results)
 
+    rm -fr data/offline/
+    ./experiments/entrypoints/offline-monitoring-system-tests.sh clean_logs reboot_count
     ./experiments/entrypoints/offline-monitoring-production.sh clean_logs reboot_count
 
 Once the last script has finished, a subset of the results corresponding to
-Table 2 in the paper can be found in `data/offline/results.txt`. Specifically,
-the table contains the performance measurements for the `clean_logs` and
-`reboot_count` policies. The table's structure and the units are the same as in
-the paper.
+Table 2 in the paper can be found in `data/offline/results.txt`. You can
+display the file with
 
-#### Online monitoring benchmark
+    cat data/offline/results.txt
+
+Specifically, the table contains the performance measurements for the
+`clean_logs` and `reboot_count` policies. The table's structure and the units
+are the same as in the paper.
+
+#### Experiment group 2: Online monitoring benchmark
 
 Execute the commands
 
@@ -316,15 +328,25 @@ can be found in `data/online/latency.png`.
 
 Execute the commands
 
+#### Experiment group 3: Offline monitoring benchmark
+
     rm -fr data/offline/
     ./experiments/entrypoints/offline-monitoring-system-tests.sh
     ./experiments/entrypoints/offline-monitoring-production.sh
+
+and
+
+#### Experiment group 4: Online monitoring benchmark
 
     rm -fr data/online/
     ./experiments/entrypoints/prepare.sh
     ./experiments/entrypoints/online-monitoring.sh
 
 Once the last script has finished, the results corresponding to Table 2 in the
-paper can be found in `data/offline/results.txt`. The table's structure and the
-units are the same as in the paper. The plot corresponding to Figure 5 in the
-paper can be found in `data/online/latency.png`.
+paper can be found in `data/offline/results.txt`. You can display the file with
+
+    cat data/offline/results.txt
+
+The table's structure and the units are the same as in the paper. The plot
+corresponding to Figure 5 in the paper can be found in
+`data/online/latency.png`.
