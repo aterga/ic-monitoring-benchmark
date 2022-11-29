@@ -59,9 +59,9 @@ def get_log_stats(name):
     # Processed log
     found = glob.glob(BASEDIR + '/**/' + name + '-*.unipol.log', recursive=True)
     if len(found) >= 1:
-        # Multiple matches expected, files should be identical
-        filename = found[0]
-        processed_size = os.path.getsize(filename) / 1024 / 1024  # MiB
+        # Multiple matches expected; use maximum in case of truncated logs due to timeouts
+        processed_size_bytes = max(os.path.getsize(filename) for filename in found)
+        processed_size = processed_size_bytes / 1024 / 1024  # MiB
     else:
         logging.error("No processed log matching %s found", name)
         processed_size = np.nan
