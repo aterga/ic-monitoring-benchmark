@@ -11,6 +11,6 @@
 7. copy `system-tests` folder into data
 8. `cp test-inputs/production/mercury-reg-snap--20220905_212707.json data/`
 
-9. `rm -rf .git .gitignore .gitmodules monpoly/.git`
+9. `rm -rf .git .gitignore .gitmodules monpoly/.git building-artifact.md`
 10. zip -r ic-monitoring-benchmark.zip .`
 11. `sha256sum ic-monitoring-benchmark.zip`
