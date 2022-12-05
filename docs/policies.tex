@@ -1,0 +1,329 @@
+\documentclass[a4paper,headings=normal]{scrartcl}
+\usepackage{lmodern}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage{tikz}
+
+\setlength\parindent{1.5em}
+
+\newcommand*{\Nat}{\mathbb{N}}
+\newcommand*{\Vars}{\mathbb{V}}
+\newcommand*{\Terms}{\mathbb{T}}
+\newcommand*{\Term}[2]{\mathcal{T}(#1,#2)}
+
+\newcommand*{\Domain}{\mathbb{D}}
+\newcommand*{\Databases}{2^{\Labels\times\Domain^\ast}}
+\newcommand*{\Labels}{\mathbb{E}}
+\newcommand*{\Intervals}{\mathbb{I}}
+\newcommand*{\fv}{\mathsf{fv}}
+
+\newcommand*{\Prev}{\operatorname{\tikz[baseline=-2.2pt]{\fill circle[radius=3.2pt];}}}
+\newcommand*{\Next}{\operatorname{\tikz[baseline=-2.2pt,line width=0.4pt]{\draw circle[radius=3pt];}}}
+\newcommand*{\Since}{\mathbin{\mathsf{S}}}
+\newcommand*{\Until}{\mathbin{\mathsf{U}}}
+\newcommand*{\Always}{\operatorname{\square}}
+\newcommand*{\Historically}{\operatorname{\blacksquare}}
+\newcommand*{\Eventually}{\operatorname{\lozenge}}
+\newcommand*{\Once}{\operatorname{\blacklozenge}}
+\newcommand*{\imp}{\rightarrow}
+\newcommand*{\LetOp}{\ensuremath{\mathbf{let}}}
+\newcommand*{\LetPastOp}{\ensuremath{\mathbf{LetPast}}}
+\newcommand*{\InOp}{\ensuremath{\mathbf{in}}}
+\newcommand*{\Let}[3]{\LetOp\ #1 \coloneqq #2\ \InOp\ #3}
+\newcommand*{\LetPast}[3]{\LetPastOp\ #1 \coloneqq #2\ \InOp\ #3}
+\newcommand*{\cm}{\checkmark}
+\newcommand{\matches}{\mathsf{\xLeftarrow{\!\!\!\!\!\!\!\!\!RE\!\!\!\!\!\!\!\!\!}}}
+
+\newcommand*{\Pred}[1]{\mathtt{#1}}
+\newcommand*{\OrigInIC}{\Pred{OriginallyInIC}}
+\newcommand*{\OrigInSubnet}{\Pred{OriginallyInSubnet}}
+\newcommand*{\NodeAdded}{\Pred{RegistryAddNode}}
+\newcommand*{\NodeRemoved}{\Pred{RegistryRemoveNode}}
+\newcommand*{\NodeAddedSubnet}{\Pred{RegistryAddNodeTo}}
+\newcommand*{\NodeRemovedSubnet}{\Pred{RegistryRemoveNodeFrom}}
+\newcommand*{\PtoPNodeAdded}{\Pred{p2pAddNode}}
+\newcommand*{\PtoPNodeRemoved}{\Pred{p2pRemoveNode}}
+\newcommand*{\Log}{\Pred{Log}}
+\newcommand*{\Finalized}{\Pred{Finalized}}
+\newcommand*{\InIC}{\Pred{InIC}}
+\newcommand*{\InSubnet}{\Pred{InSubnet}}
+\newcommand*{\EndTest}{\Pred{EndTest}}
+\newcommand*{\ShareProposed}{\Pred{CupShareProposed}}
+\newcommand*{\ReplicaDiverged}{\Pred{ReplicaDiverged}}
+\newcommand*{\Reboot}{\Pred{Reboot}}
+\newcommand*{\RebootIntent}{\Pred{RebootIntent}}
+\newcommand*{\tppred}{\Pred{tp}}
+\newcommand*{\tspred}{\Pred{ts}}
+\newcommand*{\ValidBPAdd}{\Pred{validatedBPAdded}}
+\newcommand*{\ValidBPMoved}{\Pred{validatedBPMoved}}
+\newcommand*{\OrigSubnetType}{\Pred{SubnetType_{0}}}
+\newcommand*{\SubnetCreated}{\Pred{RegistryCreateSubnet}}
+\newcommand*{\SubnetUpdated}{\Pred{RegistryUpdateSubnet}}
+
+\newcommand*{\OrigInX}{\Pred{In\underline{X}_{0}}(\bar{p})}
+\newcommand*{\InX}{\Pred{In\underline{X}}(\bar{p})}
+\newcommand*{\XAdded}{\Pred{RegistryAdd\underline{X}}(\bar{p})}
+\newcommand*{\XRemoved}{\Pred{RegistryRemove\underline{X}}(\bar{p})}
+
+\newcommand*{\CleanLogs}{\texttt{clean-logs}}
+\newcommand*{\RebootCount}{\texttt{reboot-count}}
+\newcommand*{\UnauthConn}{\texttt{unauthorized-connections}}
+\newcommand*{\LoggingBehavior}{\texttt{logging-behavior}}
+\newcommand*{\SubnetSelf}{\texttt{subnet-self-report}}
+\newcommand*{\FinalizationCons}{\texttt{finalization-consistency}}
+\newcommand*{\FinalizedHeight}{\texttt{finalized-height}}
+\newcommand*{\ReplicaDivergence}{\texttt{replica-divergence}}
+\newcommand*{\APL}{\texttt{block-validation-latency}}
+
+\begin{document}
+
+\begin{center}
+\sffamily\bfseries\LARGE
+Internet Computer Policy Formulas
+\end{center}
+
+\bigskip\noindent
+This document describes all the policy formulas that we formalized for the Internet Computer (IC).
+
+\section{Common Fragments}
+
+We start with the formula $\InIC(n,a)$, denoting that a node $n$ with an
+IP address $a$ is currently active in the IC.
+This formula does not represent a standalone policy.
+Instead, it is used as a building block for some of the policy formulas shown below.
+It is formalized as follows:
+\begin{align*}
+    \begin{array}[t]{l}
+    \bigl((\Once \OrigInIC(\mathit{n},\mathit{a})) \land \lnot \Once \NodeRemoved(\mathit{n},\mathit{a}) \bigr) \lor{} \\
+    \bigl(\lnot \NodeRemoved(\mathit{n},\mathit{a}) \Since \NodeAdded(\mathit{n},\mathit{a})\bigr)
+    \end{array}
+\end{align*}
+
+The formula contains the input predicates
+$\OrigInIC(\mathit{n},\mathit{a})$ (node $n$ with IP address $a$ belongs to the IC when monitoring originally started),
+$\NodeAdded(\mathit{n},\mathit{a})$ (node $n$ with IP address $a$ is added to the IC), and
+$\NodeRemoved(\mathit{n},\mathit{a})$ (node $n$ with IP address $a$ is removed from the IC),
+each corresponding to events (log entries) in the trace.
+The predicates prefixed with $\Pred{Registry}$ correspond to log entries from the IC registry app, which maintains the IC's configuration.
+In contrast, the events $\OrigInIC(\mathit{n},\mathit{a})$ and $\OrigInSubnet(n,a,s)$ (used below) are provided by the preprocessor
+which queries the IC registry before every run of the monitoring pipeline.
+The preprocessor also adds the IP address to all the events corresponding the above input predicates.
+
+The formula $\InSubnet(n,a,s)$, denoting that a node $n$ with an
+IP address $a$ is part of a subnet $s$, is defined similarly:
+\begin{align*}
+    \begin{array}[t]{l}
+    \bigl((\Once \OrigInSubnet(n,a,s)) \land \lnot \Once \NodeRemovedSubnet(n,a,s) \bigr) \lor{} \\
+    \bigl(\lnot \NodeRemovedSubnet(n,a,s) \Since \NodeAddedSubnet(n,a,s)\bigr)
+    \end{array}
+\end{align*}
+
+In the following policy formulas, we define custom predicates, such as $\InIC$ and $\InSubnet$, using the $\LetOp$ operator.
+In general, we note that without the $\LetOp$ operator, some of our policies would have required large
+policy formulas that are hard for humans to get right or understand.
+
+When using $\InIC$ and $\InSubnet$, we typically ignore the IP address parameter using the wildcard symbol ($\_$).
+Wildcards are syntactic sugar for an existential
+quantifier, i.e., $\Pred{P}(x,\_)$ is equivalent to $\exists y.\ \Pred{P}(x,y)$.
+
+
+\section{clean-logs}
+
+The \CleanLogs{} policy states that only \emph{warning-} and \emph{info}-level
+log entries are allowed, whereas \emph{critical-} or \emph{error}-level
+entries are not. It uses the input predicate $\Log(h,n,s,c,l,m)$,
+which is satisfied by every log message $m$ emitted by component
+$c$ running on node $n$ in subnet $s$ with host name $h$, where $l$ is
+the log level.
+{\small\begin{flalign*}&\quad\begin{array}{l}
+    \LetOp\ \InIC(n,a) \coloneqq{} \cdots\ \InOp \\
+    \LetOp\ \Pred{ErrorLevel}(l) \coloneqq{} (l = \texttt{"CRITICAL"}) \lor (l = \texttt{"ERROR"})\ \InOp \\
+    \InIC(n, \_) \land \Log(h,n,s,c,l,m) \land \Pred{ErrorLevel}(l)
+\end{array}&\end{flalign*}}
+
+
+\section{finalized-height}
+
+We next show the \FinalizedHeight{} policy formula:
+{\small\begin{flalign*}&\quad\begin{array}{l}
+    \LetOp\ \InSubnet(n,a,s) \coloneqq{} \cdots\ \InOp\\
+    \LetOp\ \Pred{Growing}(s) \coloneqq{} \exists n_1,n_2.
+    \begin{array}[t]{l}
+        \InSubnet(n_1,\_,s) \land \InSubnet(n_2,\_,s) \land n_1 \neq n_2 \land{} \\
+        \lnot (\lnot \PtoPNodeRemoved(n_1,s,n_2) \Since \PtoPNodeAdded(n_1,s,n_2))\ \InOp
+    \end{array}\\
+    \LetOp\ \Pred{Shrinking}(s) \coloneqq{} \exists n_1,n_2.\ \InSubnet(n_1,\_,s) \land{} \\
+    \qquad\qquad\bigl(\begin{array}[t]{l}
+            (\lnot \PtoPNodeRemoved(n_1,s,n_2) \Since \PtoPNodeAdded(n_1,s,n_2)) \lor{} \\
+            \InSubnet(n_1,\_,s) \land
+            (\Once \OrigInSubnet(n_2,\_,s)) \land{}\\
+            \lnot (\Once \PtoPNodeRemoved(n_1,s,n_2)) \land{}
+            \lnot (\Once \PtoPNodeAdded(n_1,\_,n_2))
+        \bigr) \land{}\end{array}\\
+    \qquad\qquad\lnot \InSubnet(n_2,\_,s)\ \InOp\\
+    \LetOp\ \Pred{Changing}(s) \coloneqq \Pred{Growing}(s) \lor \Pred{Shrinking}(s)\ \InOp\\
+    \LetOp\ \Pred{FirstFin}(n,s,h,b,v) \coloneqq
+        \Finalized(n,s,h,b,v) \land \lnot \Prev \Once \exists n'. \Finalized(n',s,h,b,v)\ \InOp \\
+    (\lnot \Pred{Changing}(s) \Since_{(80\mathrm{s},\infty)} \Pred{FirstFin}(n_1,s,h_1,b_1,v)) \land{}
+    \Pred{FirstFin}(n_2,s,h_2,b_2,v) \land
+    h_2 = h_1 + 1
+\end{array}&\end{flalign*}}
+
+The policy checks that the block at height $h + 1$ in a subnet is finalized by some node no later
+than 80 seconds after the \emph{earliest} finalization of the block at height $h$.
+The 80 seconds is a rather conservative upper bound as, in practice, the average time
+between two finalized blocks is around 1 second. The \FinalizedHeight{} policy relies on
+input predicates $\PtoPNodeAdded$ and $\PtoPNodeRemoved$. The corresponding events are obtained
+from the peer-to-peer communication layer and represent the nodes' own view on subnet membership.
+The $\Finalized(n,s,h,b,v)$ event occurs whenever the consensus layer tries to deliver a batch
+to the message routing layer for the first time. The batch includes the block $b$ at height $h$ by some node $n$
+in subnet $s$, running IC software version $v$.
+
+
+\section{finalization-consistency}
+
+We next show the \FinalizationCons{} policy formula:
+{\small\begin{flalign*}&\quad\begin{array}{l}
+    \LetOp\ \InIC(n,a) \coloneqq{} \cdots\ \InOp \\
+    (\Once \Finalized(n_1,s,h,h_1,v)) \land
+    \Finalized(n_2,s,h,h_2,v)) \land
+     h_1 \neq h_2 \land{} \\
+     \InIC(n_1,\_) \land
+     \InIC(n_2,\_)
+\end{array}&\end{flalign*}}
+
+It formalizes that whenever a node finalizes a block at a given height, no other node
+in the same subnet finalizes a different block at the same height.
+
+
+\section{unauthorized-connections}
+
+We next show the \UnauthConn{} policy formula:
+{\small\begin{flalign*}&\quad\begin{array}{l}
+    \LetOp\ \InSubnet(n,a,s) \coloneqq{} \cdots\ \InOp\\
+    \Pred{TLSHandshakeFail}(da,sa) \land
+    \InSubnet(did,da,s) \land{} \\
+    \quad\neg ((\exists s'.\, \InSubnet(\_,sa,s') \land \InSubnet(did,da,s) \land s \neq s') \land{} \\
+    \qquad \Once_{[0,15\mathsf{min}]}\InSubnet(\_,sa,s))
+\end{array}&\end{flalign*}}
+
+It states that no node participating in a subnet, logs unauthorized TLS
+connection attempts, except for connection attempts between nodes
+that were recently (up to 15 min ago) members of the same subnet.
+The \FinalizedHeight{} policy relies on
+input predicate $\Pred{TLSHandshakeFail}(da,sa)$ with the corresponding event
+signifies a failed TLS handshake between $sa$ and $da$ source and destination IP addresses.
+
+
+\section{replica-divergence}
+
+We now show the \ReplicaDivergence{} policy formula:
+{\small\begin{flalign*}&\quad\begin{array}{l}
+    \LetOp\ \Pred{RelevantNode}(n,s) \coloneqq{} \OrigInSubnet(n,\_,s) \lor \NodeAddedSubnet(n,\_,s) \lor{} \\
+    \qquad\qquad\qquad\qquad\qquad\quad\; \PtoPNodeAdded(\_,s,n)\  \InOp\\
+    \EndTest() \land \Pred{RelevantNode}(n,s) \land ((\neg \ShareProposed(n,s)) \Since \ReplicaDiverged(n,s,\_))
+\end{array}&\end{flalign*}}
+
+The intended consensus protocol property captured by \ReplicaDivergence{} is that diverged nodes must eventually propose
+  a catch-up package share.
+It relies on input predicate $\Pred{CupShareProposed}(a,s)$ that holds when a catch-up package share is proposed by node $a$ of subnet $s$; input predicate $\Pred{diverged}(a,s)$ indicating that $a$ has reported a state divergence; and $\Pred{end}$ which matching the corresponding last event
+in the trace (added by the preprocessor). Using this event and the fact that traces are finite in practice, we monitor this policy as a safety property.
+
+
+\section{reboot-count}
+
+Next we show the \RebootCount{} policy formula:
+{\small\begin{flalign*}&\quad\begin{array}{l}
+    \LetOp\ \InIC(n,a) \coloneqq{} \cdots\ \InOp \\
+    \LetOp\ \Pred{TrueReboot}(ip,dc) \coloneqq{} \InIC(\_,ip) \land \Reboot(ip,dc) \land \Prev \Once \Reboot(ip,dc)\ \InOp \\
+    \LetOp\ \Pred{UnintendedReboot}(ip,dc) \coloneqq{} \Pred{TrueReboot}(ip,dc) \land{} \\
+    \qquad\qquad\qquad\qquad\qquad\qquad\qquad\neg \Prev (\neg \Reboot(ip,dc) \Since \RebootIntent(ip,dc))\ \InOp \\
+    \LetOp\ \Pred{NumReboots}(dc,n) \coloneqq{} n \gets \mathrm{CNT}\ i; dc\ \Once_{[0,30\mathsf{min}]}\Pred{UnintendedReboot}(ip,dc) \land \tppred(i)\ \InOp \\
+    \Pred{NumReboots}(dc,n) \land n > 2
+\end{array}&\end{flalign*}}
+
+The policy is satisfied whenever there are more than 2 (unintended) reboots of IC hosts
+in the same data center within a 30 minute window. The first reboot is ignored, as every
+machine is (re)booted when a testnet starts. Event $\Reboot(ip,dc)$ indicates that machine
+with IP address $ip$ in the datacenter $dc$ has been rebooted, whereas event $\RebootIntent(ip,dc)$
+the machine is about to perform a reboot requested by an administrator.
+Besides the new input predicates, this formula also uses a input predicate
+$\tppred(i)$ supported by MonPoly, such that given a trace $\rho$, valuation $v$, and index
+$i$, $v, i \models_\rho \tppred(t) \text{ if } v(t) = i$.
+In other words $\tppred(i)$ can be used to bind the current trace index to $i$.
+
+
+\paragraph{block-validation-latency}
+The \APL{} policy formula is defined as follows:
+{\small\begin{flalign*}&\quad\begin{array}{l}
+    \LetOp\ \InSubnet(n,a,s) \coloneqq{} \cdots\ \InOp\\
+    \LetOp\ \Pred{SubnetMap}(n,s) \coloneqq{} \InSubnet(n,\_,s)\ \InOp\\
+    \LetOp\ \Pred{SubnetSize}(s,ns) \coloneqq{} ns \gets \mathrm{CNT}\ n; s\ \Pred{SubnetMap}(n,s)\ \InOp\\
+    \LetOp\ \Pred{BlockAdded}(n,s,b,t) \coloneqq{} \Eventually_{[0,0]} \ValidBPAdd(n,s,b) \land{}\\
+    \Pred{SubnetMap}(n,s) \land \tspred(t)\ \InOp\\
+    \LetOp\ \Pred{Validated}(b,s,t) \coloneqq{} \exists nv, n.\, (nv \gets \mathrm{CNT}\ vn; b,s,t\ \\
+    \qquad \qquad \qquad \Once \Pred{BlockAdded}(vn,s,b,t) \lor{} \\
+    \qquad \qquad \qquad \qquad \qquad (\exists an.\ (\Once \Pred{BlockAdded}(an,s,b,t)) \land{}\\
+    \qquad \qquad \qquad \qquad \qquad \qquad \qquad  \ValidBPMoved(vn,s,b) \land{}\\
+    \qquad \qquad \qquad \qquad \qquad \qquad \qquad \Pred{SubnetMap}(vn,s))) \land{} \\
+    \qquad \qquad \Pred{SubnetSize}(s,ns) \land nv > 2 * ns / 3\ \InOp\\
+    \LetOp\ \Pred{TimePerBlock}(b,s,t) \coloneqq{} \exists ta, tv.\ \Pred{Validated}(b,s,ta) \land{} (\neg \Prev \Once \Pred{Validated}(b,s,t)) \land{}\\
+    \qquad \qquad \qquad \qquad \qquad \qquad \tspred(tv) \land t = tv - ta\ \InOp\\
+    \LetOp\ \Pred{SubnetType}(si,st) \coloneqq{} \OrigSubnetType(si,st) \lor \SubnetCreated(si,st) \lor{} \\
+    \qquad \qquad \qquad \qquad \qquad \quad \SubnetUpdated(si,st)\ \InOp \\
+    \LetOp\ \Pred{SubnetMap}(si,st) \coloneqq{} \neg \Pred{SubnetType}(si,st) \Since \Pred{SubnetType}(si,st)\ \InOp\\
+    (\Pred{TimePerBlock}(b,s,t) \land{} \Pred{SubnetMap}(s,\texttt{"System"}) \land{} t > 3\mathsf{s}) \lor{} \\
+    (\Pred{TimePerBlock}(b,s,t) \land{} \\
+    \qquad\qquad (\Pred{SubnetMap}(s,\texttt{"Application"}) \lor{} \Pred{SubnetMap}(s,\texttt{"VerifiedApplication"})) \land{} \\
+    \qquad\qquad t > 3\mathsf{s})
+\end{array}&\end{flalign*}}
+
+The $\APL$ policy formula states that the time difference between
+the moment when a block proposal has been added to the validated pool by some node
+and
+the moment when more than two thirds of the nodes in the same subnet has done so too
+must not exceed 3 seconds.
+Input predicate $\OrigSubnetType(si,st)$ indicates that subnet with ID $si$ and type $st$
+exists at the start of monitoring. Input predicate $\SubnetCreated(si,st)$ indicates that
+subnet with ID $si$ has been created and it has type $st$.
+Input predicate $\SubnetUpdated(si,st)$ indicates that
+subnet with ID $si$ has been modified to have type $st$.
+This formula also uses a special input predicate $\tspred(i)$ supported by MonPoly.
+Given a trace $\rho$, valuation $v$, and index $i$, $v, i \models_\rho \tspred(t) \text{ if } v(t) = \tau_i$.
+In other words $\tspred(i)$ can be used to bind the current timestamp to $i$.
+
+
+\section{logging-behavior}
+
+Finally, we show the \LoggingBehavior{} policy formula:
+{\small\begin{flalign*}&\quad\begin{array}{l}
+    \LetOp\ \Pred{NodeAdded}(n,s) \coloneqq{} \OrigInSubnet(n,\_,s) \lor \NodeAddedSubnet(n,\_,s)\ \InOp \\
+    \LetOp\ \Pred{NodeRemoved}(n,s) \coloneqq{} \NodeAddedSubnet(n,\_,s)\ \InOp \\
+    \LetOp\ \Pred{InSubnet}(n,s) \coloneqq{} \neg \Pred{NodeRemoved}(n,s) \Since  \Pred{NodeAdded}(n,s)\ \InOp \\
+    \LetOp\ \Pred{ProperTP}() \coloneqq{} \Once_{[1,\infty]} \top\ \InOp \\
+    \LetOp\ \Pred{RelevantNode}(n,s) \coloneqq{} \Pred{InSubnet}(n,s)\Since_{10\mathsf{min},\infty}\Pred{ProperTP}()\ \InOp \\
+    \LetOp\ \Pred{RelevantLog}(n,s,l,m,i) \coloneqq{} \exists h, c.\ \Log(h,n,s,c,l,m) \land{} \\
+    \qquad \qquad c\matches \texttt{"orchestrator"}\land{} \\
+    \qquad \qquad n = \texttt{""} \land \tppred(i)\ \InOp \\
+    \LetOp\ \Pred{MsgCount}(n,s,c) \coloneqq{} c \gets \mathrm{SUM}\ c'; n,s\ (( \\
+    \qquad \qquad (c'\gets \mathrm{CNT} i; n,s\ \Once_{[0,10\mathsf{min}]} \Pred{RelevantLog}(n,s,l,m,i)) \land{}\\
+    \qquad \qquad \Pred{RelevantNode}(n,s)) \lor \Pred{RelevantNode}(n,s) \land c = 0)\ \InOp \\
+    \LetOp\ \Pred{TypicalBehavior}(s,m) \coloneqq{} (m \gets \mathrm{MED}\ c; s\ \Pred{MsgCount}(n,s,c)) \land{} \\
+    \qquad \qquad\exists n'.\ (n' \gets \mathrm{CNT}\ n; s\ \Pred{RelevantNode}(n,s)) \land n' \geq 3\ \InOp \\
+    \LetOp\ \Pred{TypicalBehaviors}(s,m) \coloneqq{} \Once_{[0,10\mathsf{min}]} \Pred{TypicalBehavior}(s,m) \lor{}\\
+    \qquad \qquad\Eventually_{[0,10\mathsf{min}]} \Pred{TypicalBehavior}(s,m)\ \InOp \\
+    \LetOp\ \Pred{Compute}(s,n,c,mn,mx) \coloneqq{} (\neg \Eventually_{[0,10\mathsf{min}]}\EndTest) \land{} \\
+    \qquad \qquad(\exists c'.\ \Pred{MsgCount}(n,s,c') \land c = c') \land{} \\
+    \qquad \qquad(mn \gets \mathrm{MIN}\ m; s\ \Pred{TypicalBehaviors}(s,m)) \land{} \\
+    \qquad \qquad(mn \gets \mathrm{MAX}\ m; s\ \Pred{TypicalBehaviors}(s,m))\ \InOp \\
+    \LetOp\ \Pred{Exceeds}(s,n,c,mn,mx) \coloneqq{} (\Pred{Compute}(s,n,c,mn,mx) \land c > mx * 1.1) \lor{} \\
+    \qquad \qquad (\Pred{Compute}(s,n,c,mn,mx) \land c < mn * 0.9)\ \InOp \\
+    \Pred{Exceeds}(s,n,c,mn,mx) \land \neg \Prev_{[0,10\mathsf{min}]} (\exists a,b,c.\ \Pred{Exceeds}(s,n,a,b,c))
+\end{array}&\end{flalign*}}
+
+For each subnet, the $\LoggingBehavior$ policy compares its nodes' logging frequencies
+computed over a sliding window against the median logging frequency over all nodes in the subnet.
+Intuitively formula $x\matches r$ is satisfied for all strings $x$ that regular expression $r$ successfully matches.
+
+\end{document}

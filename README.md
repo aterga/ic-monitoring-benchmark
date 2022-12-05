@@ -89,7 +89,8 @@ ic-monitoring-benchmark`.
 
 ### Policy formulas
 
-We provide formalizations of all policies described in the paper. There is
+We provide formalizations of all policies described in the paper. See
+[docs/policies.pdf](docs/policies.pdf) for a high-level overview. There is
 a folder in `policy-monitoring/mfotl-policies` for every policy. Each folder
 contains an MFOTL formula, expressed using MonPoly's concrete syntax, as well as
 satisfying and violating example logs for testing. The MFOTL files include
